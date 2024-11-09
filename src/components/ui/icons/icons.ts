@@ -357,7 +357,7 @@ export const Icons = {
       },
     ],
     class:
-      "mt-1.5 h-6 w-6 flex-shrink-0 text-neutral-600 dark:text-neutral-400",
+      "h-6 w-6 flex-shrink-0 text-neutral-700 hs-tab-active:text-orange-400 dark:text-neutral-300 dark:hs-tab-active:text-orange-300 md:h-7 md:w-7",
     viewBox: "0 0 24 24",
     fill: "none",
     strokeWidth: "1.5",
