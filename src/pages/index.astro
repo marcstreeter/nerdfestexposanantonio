@@ -7,7 +7,6 @@ import HeroSectionFooter from "@components/sections/landing/HeroSectionFooter.as
 import FeaturesGeneral from "@components/sections/features/FeaturesGeneral.astro";
 import FeaturesNavs from "@components/sections/features/FeaturesNavs.astro";
 import FAQ from "@components/sections/misc/FAQ.astro";
-import AnnouncementBanner from "@components/ui/banners/AnnouncementBanner.astro";
 import heroImage from "@images/hero-image.avif";
 import faqs from "@data/faqs.json";
 import features from "@data/features.json";
@@ -16,16 +15,10 @@ import welcomeImage from "@images/welcome-image.avif";
 import dashboard from "@images/dashboard-image.avif";
 ---
 <MainLayout>
-  <AnnouncementBanner
-    btnId="dismiss-button"
-    btnTitle="RSVP Today and get an extra giveaway raffle ticket!"
-    url="https://forms.gle/cwNivMCVRu7Hq72A8"
-  />
-
   <HeroSection
-    title=`Let's Get Together and <span
-        class="text-yellow-500 dark:text-yellow-400">Nerd It Up</span>`
-    subTitle="Join us for a family friendly community event dedicated to the nerd in you..."
+    title=`Let's <span
+        class="text-yellow-500 dark:text-yellow-400">Get Together!</span>`
+    subTitle="3D Printing | Tabletop RPGs | Trading Card Games | Comics | Expert Presentations | Family Friendly | Community-wide"
     primaryBtn="RSVP"
     primaryBtnURL="https://forms.gle/cwNivMCVRu7Hq72A8"
     secondaryBtn="Check out the F.A.Q's"
@@ -33,11 +26,6 @@ import dashboard from "@images/dashboard-image.avif";
     reviews=`From Over <span class="font-bold">12.8k</span> Reviews`
     src={heroImage}
     alt="Nerd Fest + Expo Welcome Banner"
-  />
-
-  <HeroSectionFooter
-    title="Nerdy Family Fun"
-    subTitle="3D Printing | Tabletop RPGs | Trading Card Games | Comics | Expert Presentations"
   />
 
   <FeaturesGeneral
@@ -59,7 +47,7 @@ import dashboard from "@images/dashboard-image.avif";
         first: true,
       },
       {
-        heading: "Not Nerdy Enough?",
+        heading: "Still Not Enough?",
         content:
           "The event is still growing and we're combining with even more groups to provide more.  The Nerdness presented here is just a sample of what's to come.  Come and see what else we have to offer!",
         svg: "dashboard",
