@@ -1,9 +1,6 @@
 ---
-// Import the necessary dependencies
-import GithubBtn from "@components/ui/buttons/GithubBtn.astro";
-
 // Define props from Astro
-const { title, subTitle, url } = Astro.props;
+const { title, subTitle } = Astro.props;
 
 const btnTitle = Astro.currentLocale === "fr" ? "Continuer avec Github" : "Continue with Github";
 
@@ -11,7 +8,6 @@ const btnTitle = Astro.currentLocale === "fr" ? "Continuer avec Github" : "Conti
 interface Props {
   title: string;
   subTitle?: string;
-  url?: string;
 }
 ---
 
@@ -134,12 +130,4 @@ interface Props {
       )
     }
   </div>
-  <!-- Github Button -->
-  {
-    url && (
-      <div class="mt-8 flex justify-center gap-3">
-        <GithubBtn url={url} title={btnTitle}/>
-      </div>
-    )
-  }
 </section>
