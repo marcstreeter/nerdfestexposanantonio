@@ -2,10 +2,6 @@
   "subTitle": "We wil add to this as we get more questions.",
   "faqs": [
     {
-      "question": "If I want to play the role playing games with others do I have bring my own gear?",
-      "answer": "You don't have to bring anything. Just hop in and play!"
-    },
-    {
       "question": "If I didn't RSVP, can I still attend?",
       "answer": "Absolutely! It is not required to RSVP or even cancel."
     },
@@ -24,6 +20,18 @@
     {
       "question": "Why are you making this, free? There has to be a catch!",
       "answer": "There is none.  Not even a little one.  Everyone is volunteering for a good time, come join us. For real."
+    },
+    {
+      "question": "What games will be played?",
+      "answer": "We plan on dedicating breakout rooms for Magic the Gathering, D&D, Pokemon, and Team Yankee. If there's another game you'd like to play, please let us know when you RSVP and if there is enough interest, we'll add your game to the list."
+    },
+    {
+      "question": "If I want to play the role playing games with others do I have to bring my own gear?",
+      "answer": "Attendees interested in playing are encouraged to bring gaming materials they already own. We expect many will bring extra, so that others without gear may play as well."
+    },
+    {
+      "question": "Can I lend my support or volunteer?",
+      "answer": "Yes! Please!  Let us know via nerdfestexpo@gmail.com"
     }
   ]
 }
