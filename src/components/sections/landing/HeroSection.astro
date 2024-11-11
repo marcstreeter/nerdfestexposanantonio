@@ -1,6 +1,7 @@
 ---
 // Import the necessary dependencies
 import { Image } from "astro:assets";
+import ImageSlideshow from "@/components/ui/blocks/ImageSlideshow";
 import PrimaryCTA from "@components/ui/buttons/PrimaryCTA.astro";
 import SecondaryCTA from "@components/ui/buttons/SecondaryCTA.astro";
 // Define props from Astro
@@ -67,16 +68,13 @@ interface Props {
   <!-- Hero Image Section -->
   <div class="flex w-full">
       <div class="top-12 overflow-hidden">
-	{src && alt &&
-	<Image
-        src={src}
-        alt={alt}
-        class="h-full w-full scale-110 object-cover object-center"
-        draggable={"false"}
-        loading={"eager"}
-        format={"avif"}
-	 />
-	}
+      {
+        src && <ImageSlideshow client:visible images={src} />
+      }
     </div>
   </div>
 </section>
+
+<script>
+
+</script>

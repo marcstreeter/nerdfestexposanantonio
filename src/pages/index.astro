@@ -8,11 +8,13 @@ import FeaturesGeneral from "@components/sections/features/FeaturesGeneral.astro
 import FeaturesNavs from "@components/sections/features/FeaturesNavs.astro";
 import FAQ from "@components/sections/misc/FAQ.astro";
 import heroImage from "@images/hero-image.avif";
+import heroImage2 from "@images/hero-image2.avif";
 import faqs from "@data/faqs.json";
 import features from "@data/features.json";
 import featureImage from "@images/features-image.avif";
 import welcomeImage from "@images/welcome-image.avif";
 import dashboard from "@images/dashboard-image.avif";
+const heroImages = [heroImage, heroImage2];
 ---
 <MainLayout>
   <HeroSection
@@ -24,7 +26,7 @@ import dashboard from "@images/dashboard-image.avif";
     secondaryBtn="Check out the F.A.Q's"
     secondaryBtnURL="#faq"
     reviews=`From Over <span class="font-bold">12.8k</span> Reviews`
-    src={heroImage}
+    src={heroImages}
     alt="Nerd Fest + Expo Welcome Banner"
   />
 
