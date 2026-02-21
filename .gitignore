@@ -18,5 +18,8 @@ pnpm-debug.log*
 .env
 .env.production
 
+# mise local overrides (project-specific, not committed)
+mise.local.toml
+
 # macOS-specific files
 .DS_Store

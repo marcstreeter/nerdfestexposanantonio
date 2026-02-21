@@ -4,26 +4,43 @@ import { Image } from "astro:assets";
 import ImageSlideshow from "@/components/ui/blocks/ImageSlideshow";
 import PrimaryCTA from "@components/ui/buttons/PrimaryCTA.astro";
 import SecondaryCTA from "@components/ui/buttons/SecondaryCTA.astro";
-// Define props from Astro
+
+interface BtnConfig {
+  title?: string;
+  url?: string;
+  openInNewTab?: boolean;
+}
+
+const DEFAULTS: Pick<BtnConfig, "title" | "openInNewTab"> = {
+  title: "Learn More",
+  openInNewTab: false,
+};
+
+function normalizeBtnConfig(
+  config: BtnConfig | undefined
+): (BtnConfig & { url: string }) | null {
+  if (!config || typeof config !== "object" || !config.url) return null;
+  return { ...DEFAULTS, ...config, url: config.url };
+}
+
 const {
   title,
   subTitle,
   primaryBtn,
-  primaryBtnURL,
   secondaryBtn,
-  secondaryBtnURL,
   src,
-  alt
+  alt,
 } = Astro.props;
+
+const primaryBtnConfig = normalizeBtnConfig(primaryBtn);
+const secondaryBtnConfig = normalizeBtnConfig(secondaryBtn);
 
 // Define TypeScript interface for props
 interface Props {
   title: string;
   subTitle?: string;
-  primaryBtn?: string;
-  primaryBtnURL?: string;
-  secondaryBtn?: string;
-  secondaryBtnURL?: string;
+  primaryBtn?: BtnConfig;
+  secondaryBtn?: BtnConfig;
   withReview?: boolean;
   avatars?: Array<string>;
   starCount?: number;
@@ -56,12 +73,20 @@ interface Props {
   }
     <!-- Action Button Section: This section includes two CTAs with their own styles and URL -->
     <div class="mt-7 grid w-full gap-3 sm:inline-flex">
-      {primaryBtn && 
-      <PrimaryCTA title={primaryBtn} url={primaryBtnURL} />
-      }
-      {secondaryBtn && 
-      <SecondaryCTA title={secondaryBtn} url={secondaryBtnURL} />
-      }
+      {primaryBtnConfig && (
+      <PrimaryCTA
+        title={primaryBtnConfig.title}
+        url={primaryBtnConfig.url}
+        openInNewTab={primaryBtnConfig.openInNewTab}
+      />
+      )}
+      {secondaryBtnConfig && (
+      <SecondaryCTA
+        title={secondaryBtnConfig.title}
+        url={secondaryBtnConfig.url}
+        openInNewTab={secondaryBtnConfig.openInNewTab}
+      />
+      )}
     </div>
 
   </div>

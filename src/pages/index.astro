@@ -21,11 +21,12 @@ const heroImages = [heroImage, heroImage2];
     title=`Nerds <span
         class="text-yellow-500 dark:text-yellow-400">Assemble!</span>`
     subTitle="3D Printing | Tabletop RPGs | Trading Card Games | & More!"
-    primaryBtn="Check Out Events Page"
-    primaryBtnURL="/events"
-    secondaryBtn="Check out the F.A.Q's"
-    secondaryBtnURL="#faq"
-    reviews=`From Over <span class="font-bold">12.8k</span> Reviews`
+    primaryBtn={{
+      title: "Take Me to the Nerdiverse!",
+      url: "https://local.churchofjesuschrist.org/en/units/us/tx/valley-ranch-ward/events/nerd-fest-expo",
+      openInNewTab: true,
+    }}
+    secondaryBtn={{ title: "FAQ", url: "#faq" }}
     src={heroImages}
     alt="Nerd Fest + Expo Welcome Banner"
   />

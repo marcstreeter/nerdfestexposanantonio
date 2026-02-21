@@ -1,0 +1,18 @@
+[tools]
+node = "22.2.0"
+
+[tasks]
+install = "npm install"
+build = "npm run build"
+
+[tasks.serve]
+depends = ["install"]
+run = "npm run dev"
+
+[tasks.uninstall]
+run = "rm -rf node_modules && rm -rf ./.astro"
+
+[tasks.reinstall]
+description = "Completely reinstall: uninstall, install, then build"
+depends = ["uninstall", "install", "build"]
+run = "echo 'completely reinstalled'"
