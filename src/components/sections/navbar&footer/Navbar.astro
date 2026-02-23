@@ -1,11 +1,6 @@
 ---
 //Import relevant dependencies
-import enStrings from "@utils/navigation.ts";
 import BrandLogo from "@components/BrandLogo.astro";
-
-// Select the correct translation based on the page's lang prop:
-const strings = enStrings;
-const homeUrl = "/";
 ---
 
 <!-- Main header component -->
@@ -19,28 +14,28 @@ const homeUrl = "/";
 </header>
 
 <style>
-    .row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100% 
-    }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
 
-    nav {
-      width: 100%;
-      padding: 1rem;
-    }
-    .contact-info {
-      text-align: right;
-      font-size: 1.75rem;
-      line-height: 1.2; /* Adjusts the space between lines */
-    }
-    .logo > span {
-      font-size: 1.75rem;
-      line-height: 1.2; /* Adjusts the space between lines */
-    }
+  nav {
+    width: 100%;
+    padding: 1rem;
+  }
+  .contact-info {
+    text-align: right;
+    font-size: 1.75rem;
+    line-height: 1.2; /* Adjusts the space between lines */
+  }
+  .logo > span {
+    font-size: 1.75rem;
+    line-height: 1.2; /* Adjusts the space between lines */
+  }
 
-    /* @media (prefers-color-scheme: dark) {
+  /* @media (prefers-color-scheme: dark) {
       .logo > span {
         color: rgb(250, 204, 21);
       }

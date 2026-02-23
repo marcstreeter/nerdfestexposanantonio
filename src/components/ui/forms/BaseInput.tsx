@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import debounce from "@utils/debounce.ts";
-import { rsvpStore } from "@/stores/rsvp";
+import { rsvpStore, type RSVP } from "@/stores/rsvp";
 import {
   type inputType,
   type inputMode,
@@ -9,7 +9,7 @@ import {
 
 interface Props {
   label: string;
-  id: string;
+  id: keyof RSVP;
   inputType?: inputType;
   inputMode?: inputMode;
   autocomplete?: autocomplete;
@@ -24,7 +24,7 @@ export default function Component({
   inputMode = "text",
   required = false,
 }: Props) {
-  const [value, setValue] = useState(rsvpStore.getState().rsvp[id]);
+  const [, setValue] = useState(rsvpStore.getState().rsvp[id]);
   useEffect(() => {
     const unsubscribe = rsvpStore.subscribe((state) => {
       setValue(state.rsvp[id]);

@@ -5,15 +5,16 @@ import schedule from "@data/events-overall.json";
 import exhibits from "@data/events-exhibits.json";
 import HeroSection from "@components/sections/landing/HeroSection.astro";
 import heroImage from "@images/building-map.avif";
-const heroImages = [heroImage]
+const heroImages = [heroImage];
 ---
+
 <MainLayout>
-    <HeroSection
+  <HeroSection
     title=`Build Events Map`
     primaryBtn={{ title: "View Large", url: "/building-map.avif" }}
     src={heroImages}
     alt="Nerd Fest Building Map"
   />
-    <Event title="Schedule" items={schedule} />
-    <Event title="Exhibitors" items={exhibits} />
+  <Event title="Schedule" items={schedule} />
+  <Event title="Exhibitors" items={exhibits} />
 </MainLayout>

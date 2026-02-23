@@ -1,9 +1,10 @@
 import BaseInput from "./BaseInput";
+import { type RSVP } from "@/stores/rsvp";
 import { type autocomplete } from "@/types/html";
 
 interface Props {
   label: string;
-  id: string;
+  id: keyof RSVP;
   autocomplete?: autocomplete;
   required?: boolean;
 }

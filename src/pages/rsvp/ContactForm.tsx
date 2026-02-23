@@ -17,13 +17,13 @@ interface Props {
 
 export default ({ formSubTitle }: Props) => {
   const [value, setValue] = useState<Store>(rsvpStore.getState());
-  const [browser] = useState<Browser>(browserStore.getInitialState());
+  const [browser, setBrowser] = useState<Browser>(browserStore.getState());
   useEffect(() => {
     const unsubscribe = rsvpStore.subscribe((state) => {
       setValue(state);
     });
     const unsubscribeBrowser = browserStore.subscribe((state) => {
-      setValue(state);
+      setBrowser(state);
     });
     return () => {
       unsubscribe();

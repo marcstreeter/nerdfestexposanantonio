@@ -3,7 +3,6 @@
 import MainLayout from "@/layouts/MainLayout.astro";
 import HeroSection from "@components/sections/landing/HeroSection.astro";
 import HeroSectionAlt from "@components/sections/landing/HeroSectionAlt.astro";
-import HeroSectionFooter from "@components/sections/landing/HeroSectionFooter.astro";
 import FeaturesGeneral from "@components/sections/features/FeaturesGeneral.astro";
 import FeaturesNavs from "@components/sections/features/FeaturesNavs.astro";
 import FAQ from "@components/sections/misc/FAQ.astro";
@@ -13,9 +12,9 @@ import faqs from "@data/faqs.json";
 import features from "@data/features.json";
 import featureImage from "@images/features-image.avif";
 import welcomeImage from "@images/welcome-image.avif";
-import dashboard from "@images/dashboard-image.avif";
 const heroImages = [heroImage, heroImage2];
 ---
+
 <MainLayout>
   <HeroSection
     title=`Nerds <span

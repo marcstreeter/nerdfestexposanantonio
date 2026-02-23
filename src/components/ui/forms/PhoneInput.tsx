@@ -1,7 +1,9 @@
 import BaseInput from "./BaseInput.tsx";
+import type { RSVP } from "@/stores/rsvp";
+
 interface Props {
   label?: string;
-  id: string;
+  id: keyof RSVP;
   required?: boolean;
 }
 

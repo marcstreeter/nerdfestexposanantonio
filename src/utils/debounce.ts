@@ -1,13 +1,13 @@
-export default function debounce<T extends (...args: any[]) => void>(
-  func: T,
+export default function debounce<A extends unknown[]>(
+  func: (...args: A) => void,
   delay: number,
-): (event: Event) => void {
+): (...args: A) => void {
   let timer: ReturnType<typeof setTimeout>;
 
-  return (event: Event) => {
+  return (...args: A) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
-      func(event);
+      func(...args);
     }, delay);
   };
 }

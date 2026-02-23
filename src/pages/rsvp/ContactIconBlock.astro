@@ -1,22 +1,17 @@
 ---
 // Define props from Astro
-const {
-  heading,
-  description,
-  address,
-  link,
-} = Astro.props;
+const { heading, description, address, link } = Astro.props;
 
 // Define TypeScript interface for props
 interface Props {
   heading?: string;
   description?: string;
   address?: string;
-  link?: {title: string, url: string};
+  link?: { title: string; url: string };
 }
-const isAddressVisible = address != null || address != ""
-const isLinkVisible = link != null
-const hasDescription = description != null || description != ""
+const isAddressVisible = address != null || address != "";
+const isLinkVisible = link != null;
+const hasDescription = description != null || description != "";
 // Define SVG arrow to be used in the component
 const arrowSVG: string = `<svg
 class="h-4 w-4 flex-shrink-0 transition ease-in-out group-hover:translate-x-1"
@@ -27,16 +22,18 @@ fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" >
 <!-- Root container, which arranges the heading and content -->
 <div class="flex gap-x-7 py-6">
   <!-- Slot to allow for extensibility of the component -->
-  <slot name="icon"/>
+  <slot name="icon" />
   <div class="grow">
     <!-- Heading of the section -->
     <h3 class="font-bold text-neutral-700 dark:text-neutral-300">
       {heading}
     </h3>
-    { hasDescription ? (
-        <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">{description}</p>
-      ) : 
-        null
+    {
+      hasDescription ? (
+        <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+          {description}
+        </p>
+      ) : null
     }
     <slot name="input" />
     <!-- Conditional rendering of address content if isAddressVisible is true -->
@@ -57,6 +54,5 @@ fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" >
         </a>
       ) : null
     }
-    
   </div>
 </div>

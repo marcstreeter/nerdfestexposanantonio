@@ -1,7 +1,7 @@
 import { createStore } from "zustand/vanilla";
 import { persist } from "zustand/middleware";
 
-type RSVP = {
+export type RSVP = {
   NameFirst: string;
   NameLast: string;
   ContactPhone: string;

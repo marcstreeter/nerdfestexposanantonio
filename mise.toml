@@ -5,6 +5,11 @@ node = "22.2.0"
 install = "npm install"
 build = "npm run build"
 
+[tasks.hooks]
+description = "Run commit hooks manually (lint, format, test) via lefthook"
+depends = ["install"]
+run = "npx lefthook run pre-commit --all-files"
+
 [tasks.serve]
 depends = ["install"]
 run = "npm run dev"

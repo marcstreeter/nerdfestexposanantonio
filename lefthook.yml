@@ -1,0 +1,20 @@
+# Lefthook pre-commit: linting, formatting, and tests
+# https://github.com/evilmartians/lefthook
+
+pre-commit:
+  parallel: true
+  commands:
+    # Format staged files with Prettier and re-stage fixes
+    format:
+      glob: "*.{astro,ts,tsx,js,jsx,json,css,html,md,mdx,yaml,yml}"
+      run: npx prettier --write {staged_files}
+      stage_fixed: true
+
+    # Type-check and lint with Astro (runs if any relevant files staged)
+    lint:
+      glob: "*.{astro,ts,tsx,js,jsx}"
+      run: npm run lint
+
+    # Run tests (replace "echo" script in package.json with real test runner when ready)
+    test:
+      run: npm run test

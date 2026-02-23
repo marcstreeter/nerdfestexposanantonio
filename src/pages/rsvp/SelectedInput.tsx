@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { rsvpStore } from "@/stores/rsvp";
+import { rsvpStore, type RSVP } from "@/stores/rsvp";
 import TextInput from "@components/ui/forms/TextInput.jsx";
 
 type OptionValue = {
@@ -13,7 +13,7 @@ interface Props {
   other?: boolean;
   otherKey?: string;
   otherLabel?: string;
-  stateKey: string;
+  stateKey: keyof RSVP;
   required?: boolean;
   //   selected: string;
   //   updateSelected: (value: string) => void;
@@ -88,7 +88,7 @@ export default function Select({
         ))}
       </select>
       {other && value == otherKey && (
-        <TextInput id={`${stateKey}Other`} label={otherLabel} />
+        <TextInput id={`${stateKey}Other` as keyof RSVP} label={otherLabel} />
       )}
     </div>
   );
