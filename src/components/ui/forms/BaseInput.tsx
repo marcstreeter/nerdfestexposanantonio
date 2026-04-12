@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import debounce from "@utils/debounce.ts";
 import { rsvpStore, type RSVP } from "@/stores/rsvp";
 import {
@@ -33,32 +33,6 @@ export default function Component({
       unsubscribe();
     };
   }, []);
-  const inputRef = useRef(null);
-  useEffect(() => {
-    console.error("hmmm ok");
-    const inputElement = inputRef.current;
-    if (!inputElement) return;
-
-    const observer = new MutationObserver((mutationList) => {
-      mutationList.forEach((mutation) => {
-        console.error("hmmm");
-        if (
-          mutation.type === "attributes" &&
-          mutation.attributeName === "value"
-        ) {
-          console.error("Value has changed to: ", mutation.target);
-        }
-      });
-    });
-
-    observer.observe(inputElement, {
-      attributes: true,
-      attributeFilter: ["value"],
-    });
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
   const store = rsvpStore.getState();
   const handler = (event: React.ChangeEvent<HTMLInputElement>) =>
     store.setRsvp({
@@ -71,7 +45,6 @@ export default function Component({
         {label}
       </label>
       <input
-        ref={inputRef}
         type={inputType}
         id={id}
         inputMode={inputMode}

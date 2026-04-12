@@ -62,7 +62,7 @@ export default ({
                 targetWord: optionId,
                 words: (store.rsvp[id] as string[]) ?? [],
               })}
-              className="pointer-events-none mt-0.5 shrink-0 rounded border-neutral-200 text-neutral-600 focus:ring-yellow-400 dark:border-neutral-700 dark:bg-neutral-800 dark:checked:border-yellow-400 dark:checked:bg-yellow-400 dark:focus:ring-offset-neutral-800"
+              className="mt-0.5 shrink-0 cursor-pointer rounded border-neutral-200 text-neutral-600 focus:ring-yellow-400 dark:border-neutral-700 dark:bg-neutral-800 dark:checked:border-yellow-400 dark:checked:bg-yellow-400 dark:focus:ring-offset-neutral-800"
             />
           </div>
           <div className="ms-3">
