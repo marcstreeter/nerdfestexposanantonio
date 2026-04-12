@@ -11,7 +11,13 @@
     },
     {
       "question": "Can I bring my own 3D printer?",
-      "answer": "Unfortunately, not this year.  We have limited space, but reach out to us and let's talk!"
+      "answer": "Maybe!  We have limited space, but [fill out our volunteer form][volunteer] and let's talk!",
+      "links": [
+        {
+          "url": "https://docs.google.com/forms/d/e/1FAIpQLSfaoOjCnhW-8VOdVxX3-6FIfnjp7FVwwzDjDtPTJvEhktfgpQ/viewform?usp=send_form",
+          "key": "volunteer"
+        }
+      ]
     },
     {
       "question": "Can I buy more raffle tickets?",
@@ -31,7 +37,13 @@
     },
     {
       "question": "Can I lend my support or volunteer?",
-      "answer": "Yes, please!  Let us know via nerdfestexpo@gmail.com"
+      "answer": "Yes, please! Fill out our [form above][volunteer]!",
+      "links": [
+        {
+          "url": "https://docs.google.com/forms/d/e/1FAIpQLSfaoOjCnhW-8VOdVxX3-6FIfnjp7FVwwzDjDtPTJvEhktfgpQ/viewform?usp=send_form",
+          "key": "volunteer"
+        }
+      ]
     }
   ]
 }

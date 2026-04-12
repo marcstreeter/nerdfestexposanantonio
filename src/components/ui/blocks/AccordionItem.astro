@@ -1,13 +1,16 @@
 ---
 import Icon from "@components/ui/icons/Icon.astro";
+import { renderFaqAnswerWithLinks } from "@utils/faqAnswer";
 // Define props from Astro
-const { id, collapseId, question, answer, first } = Astro.props;
+const { id, collapseId, question, answer, links, first } = Astro.props;
+const answerHtml = renderFaqAnswerWithLinks(answer, links);
 // Define TypeScript interface for props
 interface Props {
   id: string;
   collapseId: string;
   question: string;
   answer: string;
+  links?: { url: string; key: string }[];
   first?: boolean;
 }
 // Define class names for the accordion and its content
@@ -42,8 +45,9 @@ function getAccordionClass(first: boolean = false) {
     id={collapseId}
   >
     <!-- The content paragraph -->
-    <p class="text-pretty text-neutral-600 dark:text-neutral-400">
-      {answer}
-    </p>
+    <p
+      class="text-pretty text-neutral-600 dark:text-neutral-400"
+      set:html={answerHtml}
+    />
   </div>
 </div>
