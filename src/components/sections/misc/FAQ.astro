@@ -9,6 +9,7 @@ const { title, items } = Astro.props;
 interface Faq {
   question: string;
   answer: string;
+  links?: { url: string; key: string }[];
 }
 
 interface FaqGroup {
