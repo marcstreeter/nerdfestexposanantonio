@@ -25,14 +25,33 @@ export const browserStore = createStore<Browser>()(
   persist(
     (set) => ({
       unique: {
-        uuid: crypto.randomUUID(),
-        languages: getLanguages(),
-        resolution: getResolution(),
-        orientation: getOrientation(),
-        touch: hasTouchScreen(),
+        // Start with an empty string to avoid calling crypto on the server
+        uuid: "",
+        languages: "",
+        resolution: "",
+        orientation: "",
+        touch: false,
       },
-      setUnique: (unique: any) => set({ unique }),
+      setUnique: (unique) => set({ unique }),
     }),
-    { name: "unique-storage" },
+    {
+      name: "unique-storage",
+      // Optional: Ensure it only hydrates on the client
+      onRehydrateStorage: () => (state) => {
+        if (state && !state.unique.uuid) {
+          state.setUnique({
+            ...state.unique,
+            uuid:
+              typeof crypto !== "undefined" && crypto.randomUUID
+                ? crypto.randomUUID()
+                : Math.random().toString(36).substring(2, 12),
+            languages: getLanguages(),
+            resolution: getResolution(),
+            orientation: getOrientation(),
+            touch: hasTouchScreen(),
+          });
+        }
+      },
+    },
   ),
 );

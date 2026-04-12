@@ -25,8 +25,8 @@ const SvgComponent = (icon: any) => {
       strokeLinejoin={icon.strokeLinejoin}
     >
       <title>{icon.title}</title>
-      {paths.map((path: Path) => (
-        <path d={path.d} className={path.class || ""} />
+      {paths.map((path: Path, index: number) => (
+        <path key={index} d={path.d} className={path.class || ""} />
       ))}
     </svg>
   );

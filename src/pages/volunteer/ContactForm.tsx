@@ -109,61 +109,30 @@ export default ({ formSubTitle }: Props) => {
       </ContactIconBlock>
       <ContactIconBlock
         icon="chatBubble"
-        heading="Fav's"
-        description="Which of the following event activities are you most interested in? [select all that apply]"
+        heading="Volunteer Opportunities"
+        description="Which of the following activites would you like to help with?"
       >
         <Checkbox
           id="Interests"
           other
           otherKey="rsvp-other"
           options={[
-            { label: "3D Printing in Action", id: "rsvp-event-3dprinting" },
-            { label: "Comic Books", id: "rsvp-event-comics" },
-            { label: "GAME PLAY: Dungeons & Dragons", id: "rsvp-games-dnd" },
-            { label: "GAME PLAY: Pokemon", id: "rsvp-games-pokemon" },
-            { label: "GAME PLAY: Magic", id: "rsvp-games-magic" },
-            { label: "GAME PLAY: Team Yankee", id: "rsvp-games-teamyankee" },
+            { label: "Setup", id: "volunteer-setup" },
+            { label: "Take down", id: "volunteer-take-down" },
+            { label: "Raffle desk", id: "volunteer-raffle-desk" },
+            { label: "Popcorn machine", id: "volunteer-popcorn-machine" },
             {
-              label: "SPEAKER: Tabletop Games for Beginners",
-              id: "rsvp-speaker-tabletop",
+              label: "TriForce Challenge (family friendly cosplay)",
+              id: "volunteer-triforce-challenge",
             },
-            {
-              label: "SPEAKER: Tips for Trading Card Grading & Selling",
-              id: "rsvp-speaker-tradingcards",
-            },
-            {
-              label: "SPEAKER: Top 5 Filaments",
-              id: "rsvp-speaker-5filaments",
-            },
-            { label: "(Free) Raffle Giveaways", id: "rsvp-perks-raffle" },
-            { label: "Other", id: "rsvp-other" },
-          ]}
-        />
-      </ContactIconBlock>
-
-      <ContactIconBlock
-        icon="chatBubble"
-        heading="How did you (first) hear about Nerd Fest + Expo?"
-      >
-        <SelectInput
-          stateKey="Network"
-          id="rsvp-network-selector"
-          label="Who told ya..."
-          other={true}
-          options={[
-            { key: "dragon", value: "Dragon's Lair Alamo Ranch" },
-            { key: "facebookInterest", value: "Interest-Based Facebook Group" },
-            {
-              key: "facebookCommunity",
-              value: "Local Community Facebook Group",
-            },
-            { key: "friend", value: "Friend" },
-            { key: "other", value: "Other" },
+            { label: "D&D Dungeon Master", id: "volunteer-dnd-dungeon-master" },
+            { label: "Live 3D Printing", id: "volunteer-live-3d-printing" },
+            { label: "Other", id: "volunteer-other" },
           ]}
         />
       </ContactIconBlock>
       <div className="mt-4 grid">
-        <SubmitButton title="Confirm RSVP" />
+        <SubmitButton title="Confirm Volunteer Availability" />
       </div>
     </form>
   );

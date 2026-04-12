@@ -78,7 +78,7 @@ export default function Select({
         }
         required={required}
       >
-        <option value="" selected disabled>
+        <option value="" disabled>
           {label}
         </option>
         {prepped.map(({ key, value }: OptionValue) => (
