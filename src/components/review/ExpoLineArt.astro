@@ -1,0 +1,102 @@
+---
+import { cards, dice, headset, printer, scenePath } from "./story-art";
+
+const motifs = [
+  {
+    name: "chess",
+    path: "M24 79h53v10H24z M31 79c2-21 18-21 22-35l-14 7-16-8 15-17 4-15 13 11c21 4 27 27 20 57 M42 32h2 M23 43l9-2",
+  },
+  { name: "printer", path: scenePath(printer) },
+  { name: "dice", path: scenePath(dice) },
+  { name: "vr", path: scenePath(headset) },
+  { name: "cards", path: scenePath(cards) },
+];
+---
+
+<div class="expo-line-art" aria-hidden="true">
+  {
+    motifs.map(({ name, path }) => (
+      <svg
+        data-motif={name}
+        viewBox="0 0 100 100"
+        fill="none"
+        focusable="false"
+      >
+        <path
+          d={path}
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          vector-effect="non-scaling-stroke"
+        />
+      </svg>
+    ))
+  }
+</div>
+
+<style>
+  .expo-line-art {
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    inset-inline-end: max(1rem, (100% - 76rem) / 2);
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+    inline-size: min(45%, 39rem);
+    block-size: min(85%, 16rem);
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    color: var(--story-line);
+    opacity: 0.34;
+    mask-image: linear-gradient(90deg, transparent, #000 27%);
+  }
+
+  .expo-line-art svg {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+  }
+
+  [data-motif="chess"] {
+    grid-area: 2 / 1 / 3 / 3;
+  }
+  [data-motif="printer"] {
+    grid-area: 1 / 2 / 2 / 4;
+  }
+  [data-motif="dice"] {
+    grid-area: 2 / 3 / 3 / 5;
+  }
+  [data-motif="vr"] {
+    grid-area: 1 / 4 / 2 / 6;
+  }
+  [data-motif="cards"] {
+    grid-area: 2 / 5 / 3 / 7;
+  }
+
+  [data-motif="printer"],
+  [data-motif="cards"] {
+    color: var(--link, var(--accent));
+  }
+
+  :global(:root[data-background="plain"]) .expo-line-art {
+    display: none;
+  }
+
+  @media (max-width: 760px) {
+    .expo-line-art {
+      inset-block: auto 0.35rem;
+      inset-inline-end: 1rem;
+      transform: none;
+      inline-size: min(calc(100% - 2rem), 25rem);
+      block-size: 3rem;
+      grid-template: minmax(0, 1fr) / repeat(5, minmax(0, 1fr));
+      mask-image: none;
+    }
+
+    .expo-line-art svg {
+      grid-area: auto;
+    }
+  }
+</style>

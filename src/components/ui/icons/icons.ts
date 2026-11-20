@@ -50,7 +50,7 @@ export const Icons = {
       },
     ],
     class:
-      "mt-2 h-6 w-6 flex-shrink-0 fill-neutral-700 hs-tab-active:fill-orange-400 dark:fill-neutral-300 dark:hs-tab-active:fill-orange-300 md:h-7 md:w-7",
+      "mt-2 h-6 w-6 flex-shrink-0 fill-neutral-700 group-data-[state=active]:fill-orange-400 dark:fill-neutral-300 dark:group-data-[state=active]:fill-orange-300 md:h-7 md:w-7",
     width: 48,
     height: 48,
     viewBox: "0 -960 960 960",
@@ -62,7 +62,7 @@ export const Icons = {
       },
     ],
     class:
-      "mt-2 h-6 w-6 flex-shrink-0 fill-neutral-700 hs-tab-active:fill-orange-400 dark:fill-neutral-300 dark:hs-tab-active:fill-orange-300 md:h-7 md:w-7",
+      "mt-2 h-6 w-6 flex-shrink-0 fill-neutral-700 group-data-[state=active]:fill-orange-400 dark:fill-neutral-300 dark:group-data-[state=active]:fill-orange-300 md:h-7 md:w-7",
     width: 48,
     height: 48,
     viewBox: "0 -960 960 960",
@@ -74,7 +74,7 @@ export const Icons = {
       },
     ],
     class:
-      "h-6 w-6 flex-shrink-0 text-neutral-700 hs-tab-active:text-orange-400 dark:text-neutral-300 dark:hs-tab-active:text-orange-300 md:h-7 md:w-7",
+      "h-6 w-6 flex-shrink-0 text-neutral-700 group-data-[state=active]:text-orange-400 dark:text-neutral-300 dark:group-data-[state=active]:text-orange-300 md:h-7 md:w-7",
     width: 24,
     height: 24,
     viewBox: "0 0 24 24",
@@ -228,40 +228,6 @@ export const Icons = {
     strokeLinejoin: "round",
     stroke: "currentColor",
   },
-  accordionNotActive: {
-    paths: [
-      {
-        d: "m6 9 6 6 6-6",
-      },
-    ],
-    class:
-      "block h-5 w-5 flex-shrink-0 text-neutral-600 group-hover:text-neutral-500 hs-accordion-active:hidden dark:text-neutral-400",
-    width: 24,
-    height: 24,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    strokeWidth: "2",
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    stroke: "currentColor",
-  },
-  accordionActive: {
-    paths: [
-      {
-        d: "m18 15-6-6-6 6",
-      },
-    ],
-    class:
-      "hidden h-5 w-5 flex-shrink-0 text-neutral-600 group-hover:text-neutral-500 hs-accordion-active:block dark:text-neutral-400",
-    width: 24,
-    height: 24,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    strokeWidth: "2",
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    stroke: "currentColor",
-  },
   xFooter: {
     paths: [
       {
@@ -357,7 +323,7 @@ export const Icons = {
       },
     ],
     class:
-      "h-6 w-6 flex-shrink-0 text-neutral-700 hs-tab-active:text-orange-400 dark:text-neutral-300 dark:hs-tab-active:text-orange-300 md:h-7 md:w-7",
+      "h-6 w-6 flex-shrink-0 text-neutral-700 group-data-[state=active]:text-orange-400 dark:text-neutral-300 dark:group-data-[state=active]:text-orange-300 md:h-7 md:w-7",
     viewBox: "0 0 24 24",
     fill: "none",
     strokeWidth: "1.5",

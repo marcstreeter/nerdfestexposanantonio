@@ -1,0 +1,21 @@
+---
+import ExpoLineArt from "@components/review/ExpoLineArt.astro";
+import ContactForm from "./ContactForm.tsx";
+import "./signup.css";
+---
+
+<section class="world expo-hero signup-world">
+  <ExpoLineArt />
+  <div class="wrap signup-wrap signup-header">
+    <h1>Expo <em>sign up</em></h1>
+    <p class="intro">
+      RSVP for the expo, share what you’d like to see, and pick a volunteer role
+      if you’d like to help.
+    </p>
+  </div>
+</section>
+<section class="world circuitry signup-world">
+  <div class="wrap signup-wrap signup-body">
+    <ContactForm client:only="react" />
+  </div>
+</section>

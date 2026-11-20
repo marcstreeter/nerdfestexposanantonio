@@ -1,0 +1,170 @@
+---
+import ExpoLineArt from "@components/review/ExpoLineArt.astro";
+import { Button } from "@/components/ui/shadcn/button";
+import ReviewLayout from "@components/review/ReviewLayout.astro";
+import { Input } from "@/components/ui/shadcn/input";
+import Select from "@components/ui/forms/Select.tsx";
+import schedule from "@data/events-overall.json";
+import exhibits from "@data/events-exhibits.json";
+
+const events = schedule.items.map(({ question, answer }, index) => {
+  const [title, venue] = answer.split(" @");
+  return {
+    id: `schedule-${index}`,
+    kind: "schedule",
+    label: question,
+    title,
+    venue,
+  };
+});
+const entries = [
+  ...events,
+  ...exhibits.items.map(({ question, answer }, index) => ({
+    id: `exhibit-${index}`,
+    kind: "exhibit",
+    label: "Exhibit",
+    title: question,
+    venue: answer,
+  })),
+];
+---
+
+<ReviewLayout title="Events & exhibits">
+  <section class="world expo-hero">
+    <ExpoLineArt />
+    <div class="wrap section">
+      <p class="eyebrow">Nerd Fest + Expo</p>
+      <h1 class="events-title">Events & <em>exhibits</em></h1>
+      <p class="intro">
+        Explore the expo and save the sessions you want to catch.
+      </p>
+    </div>
+  </section>
+  <section class="world circuitry" id="schedule">
+    <div class="wrap section" data-event-list>
+      <form class="event-controls" role="search">
+        <label
+          >Search events <Input
+            className="form-control"
+            type="search"
+            name="query"
+            placeholder="Try trivia or gym"
+          /></label
+        >
+        <label
+          >Show
+          <Select
+            name="filter"
+            options={[
+              { value: "all", label: "All events" },
+              { value: "schedule", label: "Schedule" },
+              { value: "exhibit", label: "Exhibits" },
+              { value: "saved", label: "Saved" },
+            ]}
+          />
+        </label>
+      </form>
+      <p class="muted" data-results role="status"></p>
+      <ul class="event-list">
+        {
+          entries.map(({ id, kind, label, title, venue }) => (
+            <li class="event-card" data-event={id} data-kind={kind}>
+              <span class="event-time">{label}</span>
+              <div>
+                <h2>{title}</h2>
+                {venue && <p>{venue}</p>}
+              </div>
+              <Button
+                variant="outline"
+                className="save"
+                type="button"
+                aria-label={`Save ${title}`}
+                aria-pressed="false"
+                hidden
+              >
+                Save
+              </Button>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</ReviewLayout>
+
+<script>
+  const section = document.querySelector<HTMLElement>("[data-event-list]");
+  if (section) {
+    const form = section.querySelector<HTMLFormElement>("form")!;
+    const search = form.querySelector<HTMLInputElement>("input")!;
+    const filter = form.querySelector<HTMLSelectElement>("select")!;
+    const requestedFilter = new URL(location.href).searchParams.get("filter");
+    if (
+      requestedFilter &&
+      Array.from(filter.options).some(({ value }) => value === requestedFilter)
+    ) {
+      filter.value = requestedFilter;
+    }
+    const status = section.querySelector<HTMLElement>("[data-results]")!;
+    const storageKey = "nerdfest-review-saved-events";
+    const cards = Array.from(
+      section.querySelectorAll<HTMLElement>("[data-event]"),
+    ).map((card) => ({
+      card,
+      id: card.dataset.event!,
+      kind: card.dataset.kind,
+      text: card.textContent?.toLowerCase().replace(/\s+/g, " ") ?? "",
+      button: card.querySelector<HTMLButtonElement>("button")!,
+    }));
+    let saved = new Set<string>();
+    try {
+      const stored: unknown = JSON.parse(
+        localStorage.getItem(storageKey) ?? "[]",
+      );
+      if (Array.isArray(stored))
+        saved = new Set(stored.filter((id) => typeof id === "string"));
+    } catch {
+      // Keep bookmarks usable for this visit if storage is unavailable.
+    }
+
+    function render() {
+      const terms = search.value.trim().toLowerCase().split(/\s+/);
+      let count = 0;
+      for (const { card, id, kind, text, button } of cards) {
+        const isSaved = saved.has(id);
+        const matchesFilter =
+          filter.value === "all" ||
+          filter.value === kind ||
+          (filter.value === "saved" && isSaved);
+        card.hidden =
+          !matchesFilter || !terms.every((term) => text.includes(term));
+        if (!card.hidden) count += 1;
+        button.setAttribute("aria-pressed", String(isSaved));
+        button.textContent = isSaved ? "Saved" : "Save";
+      }
+      status.textContent =
+        count === 0
+          ? "No matching events."
+          : `${count} ${count === 1 ? "event" : "events"}`;
+    }
+
+    for (const { id, button } of cards) {
+      button.hidden = false;
+      button.addEventListener("click", () => {
+        if (saved.has(id)) saved.delete(id);
+        else saved.add(id);
+        try {
+          localStorage.setItem(storageKey, JSON.stringify([...saved]));
+        } catch {
+          // In-memory bookmarks remain available for this visit.
+        }
+        render();
+        if (button.closest("[hidden]")) filter.focus();
+      });
+    }
+    form.addEventListener("submit", (event) => event.preventDefault());
+    search.addEventListener("input", render);
+    filter.addEventListener("change", render);
+    render();
+  }
+</script>

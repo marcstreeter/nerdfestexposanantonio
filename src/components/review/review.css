@@ -1,0 +1,620 @@
+:root {
+  color-scheme: light dark;
+  font-family: Inter, system-ui, sans-serif;
+  color: var(--text);
+  background: var(--page);
+}
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+[hidden] {
+  display: none !important;
+}
+a {
+  color: inherit;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button:not(:disabled) {
+  cursor: pointer;
+}
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+.wrap {
+  width: min(100% - 2.5rem, 76rem);
+  margin-inline: auto;
+}
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  transform: translateY(-200%);
+  padding: 0.75rem;
+  background: var(--page);
+  z-index: 2;
+}
+.skip-link:focus {
+  transform: none;
+}
+.masthead {
+  position: relative;
+  z-index: 1;
+  background: var(--masthead);
+  border-bottom: 1px solid var(--line);
+}
+.masthead-inner {
+  display: flex;
+  min-height: 4.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.brand {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--wordmark, var(--accent));
+  cursor: pointer;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+.brand-plus {
+  color: var(--logo-plus, var(--text));
+  margin-inline: 0.2rem;
+}
+.brand[data-state="open"] svg {
+  transform: rotate(180deg);
+}
+.menu-panel {
+  width: min(19rem, calc(100vw - 2rem));
+  padding: 0.55rem;
+  border-color: var(--line);
+  border-radius: 0.75rem;
+  box-shadow: 0 0.85rem 1.8rem #0003;
+}
+.menu-link {
+  display: grid;
+  min-height: 44px;
+  align-content: center;
+  gap: 0.2rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 0.35rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.menu-link[data-highlighted] {
+  background: var(--masthead);
+  color: var(--link);
+}
+.menu-link span {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+.menu-divider {
+  background-color: var(--line);
+  margin: 0.3rem 0;
+}
+.menu-settings {
+  padding: 0.45rem 0.6rem;
+  color: var(--muted);
+}
+.menu-palette {
+  min-height: 44px;
+  cursor: pointer;
+}
+nav {
+  display: flex;
+  gap: clamp(0.75rem, 4vw, 2rem);
+  font-size: 0.9rem;
+}
+nav a {
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  text-decoration: none;
+}
+nav a:hover,
+nav a[aria-current] {
+  color: var(--link);
+}
+.footer {
+  border-top: 1px solid var(--line);
+  padding-block: 2rem;
+  color: var(--muted);
+}
+.world {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+.world::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  mask-image: linear-gradient(transparent, #000 20%, #000 80%, transparent);
+}
+.circuitry::before {
+  background: radial-gradient(
+    ellipse at 90% 18%,
+    var(--circuit-background),
+    transparent 72%
+  );
+}
+.circuitry::after,
+.story [data-scene="circuit"]::after {
+  --pcb-width: clamp(60rem, 100vw, 112.5rem);
+  --pcb-fade: linear-gradient(transparent, #000 12%, #000 82%, transparent);
+  --pcb-bias: linear-gradient(112deg, #0005, #000 68%);
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--story-line);
+  opacity: 0.28;
+  mask-image: var(--pcb-fade), var(--pcb-bias), url("./pcb-traces.svg");
+  mask-size:
+    100% 100%,
+    100% 100%,
+    var(--pcb-width) auto;
+  mask-position:
+    center,
+    center,
+    right top;
+  mask-repeat: no-repeat;
+  mask-composite: intersect;
+}
+.story [data-scene="circuit"]::after {
+  /* Clear space around the chip that morphs as the page scrolls. */
+  mask-image:
+    var(--pcb-fade), var(--pcb-bias),
+    radial-gradient(ellipse 28% 46% at 74% 50%, transparent 43%, #000 95%),
+    url("./pcb-traces.svg");
+  mask-size:
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    var(--pcb-width) auto;
+  mask-position:
+    center,
+    center,
+    center,
+    right center;
+}
+:root[data-background="plain"] .circuitry::before,
+:root[data-background="plain"] .circuitry::after,
+:root[data-background="plain"] .story [data-scene="circuit"]::after {
+  content: none;
+}
+@media (max-width: 720px) {
+  .circuitry::after {
+    opacity: 0.16;
+  }
+  .story [data-scene="circuit"]::after {
+    opacity: 0.17;
+  }
+}
+.expo-hero::before {
+  background: var(--expo-background);
+  opacity: 0.52;
+}
+:root[data-background="plain"] .expo-hero::before {
+  content: none;
+}
+@media (max-width: 760px) {
+  :root:not([data-background="plain"]) .expo-hero > .wrap {
+    padding-bottom: max(3.8rem, 6vw);
+  }
+}
+.story {
+  position: relative;
+  isolation: isolate;
+  background: var(--story-background);
+}
+/* The textured sections fade at both edges so the SVG can carry the transition. */
+.story [data-scene]::before {
+  opacity: var(--pattern-opacity);
+  mask-image:
+    linear-gradient(90deg, transparent, #000 58%),
+    linear-gradient(transparent, #000 24%, #000 74%, transparent);
+  mask-composite: intersect;
+}
+:root[data-background="plain"] .story [data-scene]::before {
+  content: none;
+}
+.story [data-scene="circuit"]::before {
+  background: radial-gradient(
+    ellipse at 86% 38%,
+    var(--wash-grid),
+    transparent 64%
+  );
+}
+.story [data-scene="welcome"]::before,
+.story [data-scene="printer"]::before,
+.story [data-scene="blocks"]::before,
+.story [data-scene="talks"]::before {
+  background: radial-gradient(
+    ellipse at 82% 50%,
+    var(--wash-diagonal),
+    transparent 65%
+  );
+}
+.story [data-scene="chess"]::before {
+  background-image:
+    conic-gradient(
+      var(--pattern-grid) 25%,
+      transparent 0 50%,
+      var(--pattern-grid) 0 75%,
+      transparent 0
+    ),
+    radial-gradient(ellipse at 82% 55%, var(--wash-grid), transparent 65%);
+  background-size:
+    112px 112px,
+    100% 100%;
+  background-position: right center;
+}
+.story [data-scene="cards"]::before {
+  background-image:
+    radial-gradient(ellipse at 70% 58%, var(--wash-diagonal), transparent 65%),
+    repeating-linear-gradient(
+      122deg,
+      transparent 0 46px,
+      var(--pattern-diagonal) 46px 47px,
+      transparent 47px 54px,
+      var(--pattern-diagonal) 54px 55px,
+      transparent 55px 84px
+    );
+}
+.story [data-scene="arcade"]::before {
+  background-image:
+    radial-gradient(ellipse at 85% 51%, var(--wash-pixel), transparent 67%),
+    linear-gradient(90deg, var(--pattern-pixel) 2px, transparent 2px),
+    linear-gradient(var(--pattern-pixel) 2px, transparent 2px);
+  background-size:
+    100% 100%,
+    58px 58px,
+    58px 58px;
+}
+.story [data-scene="tabletop"]::before {
+  background-image:
+    radial-gradient(ellipse at 79% 55%, var(--wash-diagonal), transparent 67%),
+    repeating-linear-gradient(
+      30deg,
+      transparent 0 42px,
+      var(--pattern-diagonal) 42px 43px
+    ),
+    repeating-linear-gradient(
+      150deg,
+      transparent 0 42px,
+      var(--pattern-diagonal) 42px 43px
+    );
+}
+.story [data-scene="vr"]::before {
+  background-image:
+    radial-gradient(ellipse at 82% 63%, var(--wash-grid), transparent 63%),
+    repeating-radial-gradient(
+      ellipse at 81% 60%,
+      transparent 0 34px,
+      var(--pattern-grid) 35px 36px,
+      transparent 37px 53px
+    );
+}
+.story-art {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  color: var(--story-line);
+}
+.story-art svg {
+  position: sticky;
+  top: max(2rem, calc((100svh - min(45vw, 34rem)) / 2));
+  display: block;
+  width: min(45vw, 34rem);
+  height: auto;
+  margin-left: auto;
+  margin-right: max(4vw, calc((100vw - 78rem) / 2));
+  opacity: 0.43;
+}
+.story-section {
+  min-height: min(70svh, 43rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding-block: clamp(3rem, 8vw, 7rem);
+}
+.story-section > :is(p, h1, h2) {
+  max-width: min(52%, 36rem);
+}
+.story-hero {
+  min-height: min(82svh, 50rem);
+}
+.story-hero h1 em {
+  display: block;
+}
+.story-hero :is(h1, .intro) {
+  position: relative;
+  isolation: isolate;
+}
+:root:not([data-background="plain"]) .story-hero :is(h1, .intro)::before {
+  content: "";
+  position: absolute;
+  inset: -0.65em -0.95em;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--page);
+  opacity: 0.88;
+  mask-image: radial-gradient(
+    ellipse closest-side,
+    #000 36%,
+    #000c 65%,
+    transparent
+  );
+}
+.story-arcade .arcade {
+  width: min(100%, 64rem);
+}
+.section {
+  padding-block: clamp(3.5rem, 8vw, 7rem);
+}
+.eyebrow {
+  margin: 0 0 1.25rem;
+  color: var(--accent);
+  font:
+    700 0.78rem ui-monospace,
+    monospace;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+h1,
+h2 {
+  margin: 0;
+  line-height: 0.98;
+  font-weight: 900;
+  letter-spacing: -0.07em;
+}
+h1 {
+  font-size: clamp(3.6rem, 8.5vw, 8.5rem);
+}
+h1 em {
+  color: var(--accent);
+  font-style: normal;
+}
+h2 {
+  font-size: clamp(2.6rem, 5.5vw, 5rem);
+}
+.intro {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  line-height: 1.65;
+  color: var(--muted);
+  margin: 1.25rem 0;
+  max-width: 36rem;
+}
+.muted {
+  color: var(--muted);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+.save[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.text-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--link);
+  text-underline-offset: 0.3em;
+}
+.arcade {
+  --accent: #dcff83;
+  --link: var(--accent);
+  --line: #66805b;
+  --surface: #1b2822;
+  --text: #f7f4ff;
+  --muted: #c9d7c8;
+  color: var(--text);
+  color-scheme: dark;
+  padding: clamp(0.75rem, 3vw, 1.5rem);
+  border: 1px solid #7caa65;
+  border-radius: 1rem;
+  background: #17261f;
+}
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+  color: var(--accent);
+  font-family: ui-monospace, monospace;
+}
+.game-header p {
+  margin: 0;
+}
+.game-board {
+  margin-block: 0.75rem;
+  border: 2px solid #53734d;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  cursor: crosshair;
+}
+.game-board canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+}
+.game-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.game-lower {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 11rem;
+  align-items: start;
+  gap: 1rem;
+}
+.room-picker {
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 700;
+}
+.room-picker .select-control {
+  max-width: 26rem;
+}
+.room-details p,
+.game-note {
+  margin: 0.35rem 0;
+  line-height: 1.45;
+}
+.room-details h3 {
+  margin: 0.75rem 0 0;
+  color: var(--accent);
+}
+.room-details li + li {
+  margin-top: 0.25rem;
+}
+.game-note {
+  font-size: 0.85rem;
+}
+.dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  width: min(100%, 11rem);
+  margin-inline: auto;
+}
+.dpad button {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid #66805b;
+  border-radius: 0.35rem;
+  background: #2b4234;
+  color: var(--accent);
+  font-size: 1.2rem;
+}
+.dpad button:first-child {
+  grid-column: 2 / 3;
+}
+.dpad button:nth-child(2) {
+  grid-column: 1;
+}
+.events-title {
+  font-size: clamp(3.3rem, 8.5vw, 7.5rem);
+}
+.event-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(9rem, 0.35fr);
+  gap: 1rem;
+}
+.event-controls label {
+  display: grid;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+.event-list {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0;
+  list-style: none;
+}
+.event-card {
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+  padding: 1rem;
+  background: var(--surface);
+}
+.event-time {
+  color: var(--accent);
+  font:
+    700 0.85rem ui-monospace,
+    monospace;
+}
+.event-card h2 {
+  font-size: 1.1rem;
+  letter-spacing: -0.025em;
+  line-height: 1.3;
+}
+.event-card p {
+  color: var(--muted);
+  margin: 0.35rem 0 0;
+}
+
+@media (max-width: 720px) {
+  .story [data-scene]::before {
+    opacity: calc(var(--pattern-opacity) * 0.72);
+    mask-image:
+      linear-gradient(90deg, transparent 5%, #000 90%),
+      linear-gradient(transparent, #000 24%, #000 74%, transparent);
+  }
+  .story-art svg {
+    top: 23svh;
+    width: min(68vw, 23rem);
+    margin-right: 0;
+    opacity: 0.26;
+  }
+  .story-section > :is(p, h1, h2) {
+    max-width: min(100%, 32rem);
+  }
+  .story-section {
+    min-height: min(68svh, 34rem);
+  }
+}
+@media (max-width: 520px) {
+  .game-header {
+    flex-wrap: wrap;
+  }
+  .game-lower {
+    grid-template-columns: 1fr;
+  }
+  .game-lower .dpad {
+    grid-row: 1;
+  }
+}
+@media (max-width: 430px) {
+  .wrap {
+    width: calc(100% - 2rem);
+  }
+  h1 {
+    font-size: clamp(2.9rem, 13.5vw, 4.5rem);
+  }
+  .event-controls {
+    grid-template-columns: 1fr;
+  }
+  .event-card {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.55rem;
+  }
+  .event-time {
+    grid-column: 1 / -1;
+  }
+}

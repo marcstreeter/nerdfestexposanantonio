@@ -1,0 +1,54 @@
+---
+import { Button } from "@/components/ui/shadcn/button";
+const base = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/review/`;
+---
+
+<div data-updates data-worker={`${base}alerts-worker.js`}>
+  <p class="intro">
+    Try a browser alert on this device. The scheduled expo alerts are still in
+    development.
+  </p>
+  <Button variant="outline" type="button" hidden>Send a test alert</Button>
+  <p class="muted" role="status"></p>
+</div>
+
+<script>
+  const updates = document.querySelector<HTMLElement>("[data-updates]");
+  if (updates) {
+    const button = updates.querySelector<HTMLButtonElement>("button")!;
+    const status = updates.querySelector<HTMLElement>("[role=status]")!;
+    if (
+      "Notification" in window &&
+      "serviceWorker" in navigator &&
+      window.isSecureContext
+    ) {
+      button.hidden = false;
+      button.addEventListener("click", async () => {
+        button.disabled = true;
+        try {
+          const permission = await Notification.requestPermission();
+          if (permission !== "granted") {
+            status.textContent =
+              permission === "denied"
+                ? "Notifications are blocked in this browser's settings."
+                : "Notification permission was skipped.";
+            return;
+          }
+          await navigator.serviceWorker.register(updates.dataset.worker!);
+          const registration = await navigator.serviceWorker.ready;
+          await registration.showNotification("Nerd Fest + Expo", {
+            body: "Your test alert is ready. See you at the expo!",
+            tag: "nerdfest-preview-test",
+          });
+          status.textContent = "Test alert sent to this device.";
+        } catch {
+          status.textContent = "This browser could not show the test alert.";
+        } finally {
+          button.disabled = false;
+        }
+      });
+    } else {
+      status.textContent = "Browser alerts are unavailable on this device.";
+    }
+  }
+</script>

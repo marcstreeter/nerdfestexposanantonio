@@ -1,0 +1,6 @@
+:root {
+  --ui-highlight: color-mix(in srgb, var(--accent) 14%, var(--surface));
+  --ui-field-border: color-mix(in srgb, var(--muted) 70%, var(--line));
+  --ui-destructive: #b42318;
+  --ui-on-destructive: #fff;
+}

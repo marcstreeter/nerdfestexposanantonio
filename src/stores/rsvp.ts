@@ -10,6 +10,7 @@ export type RSVP = {
   Total: string;
   Interests: string[];
   InterestsOther: string;
+  VolunteerOther: string;
   Network: string;
   NetworkOther: string;
   Whoami: string;
@@ -39,6 +40,7 @@ const initialState: RSVP = {
   Total: "",
   Interests: [],
   InterestsOther: "",
+  VolunteerOther: "",
   Network: "",
   NetworkOther: "",
   Whoami: "",
