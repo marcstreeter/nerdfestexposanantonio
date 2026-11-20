@@ -1,0 +1,163 @@
+---
+import { buttonVariants } from "@/components/ui/shadcn/button";
+import ReviewLayout from "@components/review/ReviewLayout.astro";
+import Arcade from "@components/review/Arcade.astro";
+import Updates from "@components/review/Updates.astro";
+import HeroBackdrop from "@components/review/HeroBackdrop.astro";
+import StoryArt from "@components/review/StoryArt.astro";
+import {
+  boardGameHost,
+  livePrinting,
+} from "@components/signup/volunteer-roles";
+
+const siteBase = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/`;
+const events = `${siteBase}review/events/`;
+const signup = `${siteBase}review/signup/`;
+---
+
+<ReviewLayout title="Nerds Assemble">
+  <div class="story" data-story>
+    <StoryArt />
+    <section class="world" data-scene="welcome">
+      <HeroBackdrop />
+      <div class="wrap story-section story-hero">
+        <p class="eyebrow">San Antonio, Texas</p>
+        <h1>Nerds <em>Assemble</em></h1>
+        <p class="intro">
+          A free, family-friendly expo for tabletop adventurers, tinkerers, card
+          collectors, and the curious.
+        </p>
+        <div class="actions">
+          <a class={buttonVariants()} href={signup}>Volunteer or RSVP</a>
+          <a class={buttonVariants({ variant: "outline" })} href={events}
+            >Explore the schedule <span aria-hidden="true">↗</span></a
+          >
+          <a class={buttonVariants({ variant: "outline" })} href="#arcade"
+            >Play Chip Run</a
+          >
+        </div>
+      </div>
+    </section>
+    <section id="3d-printing" class="world" data-scene="printer">
+      <div class="wrap story-section">
+        <p class="eyebrow">Exhibit Hall</p>
+        <h2>3D printing</h2>
+        <p class="intro">
+          See how a digital model becomes a real object, one layer at a time.
+          Past exhibits have featured Bambu filament printers and a WASP clay
+          printer.
+        </p>
+        <a class="text-link" href={`${signup}?volunteer=${livePrinting.id}`}
+          >Volunteer for live 3D printing <span aria-hidden="true">→</span></a
+        >
+      </div>
+    </section>
+    <section id="circuitry" class="world" data-scene="circuit">
+      <div class="wrap story-section">
+        <p class="eyebrow">Tech Town</p>
+        <h2>Circuitry</h2>
+        <p class="intro">Explore hands-on electronics demos.</p>
+        <a class="text-link" href={signup}
+          >Volunteer or RSVP <span aria-hidden="true">→</span></a
+        >
+      </div>
+    </section>
+    <section id="block-builders" class="world" data-scene="blocks">
+      <div class="wrap story-section">
+        <h2>Block Builder Village</h2>
+        <p class="intro">
+          See what you can make with a handful of building blocks. The village
+          sits beside Retro Games on the expo map.
+        </p>
+        <a class="text-link" href={signup}
+          >Volunteer or RSVP <span aria-hidden="true">→</span></a
+        >
+      </div>
+    </section>
+    <section class="world" data-scene="chess">
+      <div class="wrap story-section">
+        <p class="eyebrow">Board games</p>
+        <h2>Make your move</h2>
+        <p class="intro">
+          Have a favorite board game? Bring it along, teach new players, or help
+          run a table in Board Game Village.
+        </p>
+        <a class="text-link" href={`${signup}?volunteer=${boardGameHost.id}`}
+          >Volunteer to host a game <span aria-hidden="true">→</span></a
+        >
+      </div>
+    </section>
+    <section class="world" data-scene="cards">
+      <div class="wrap story-section">
+        <p class="eyebrow">Trading card games</p>
+        <h2>Draw your hand</h2>
+        <p class="intro">
+          Magic: The Gathering and Pokémon are among the games featured in our
+          breakout rooms. Bring a deck or come to meet other players.
+        </p>
+        <a class="text-link" href={signup}
+          >Volunteer to help run a table <span aria-hidden="true">→</span></a
+        >
+      </div>
+    </section>
+    <section id="arcade" class="world" data-scene="arcade">
+      <div class="wrap story-section story-arcade">
+        <p class="eyebrow">Playable expo map</p>
+        <h2>Chip Run</h2>
+        <p class="intro" id="arcade-help">
+          Explore the expo as a pixel character. Pick a room to trace a route,
+          then use the arrow keys on the map or the direction buttons to get
+          there. Each activity room you visit earns a chip. Look for Retro Games
+          in the north wing, where the expo has featured classic video games.
+        </p>
+        <Arcade />
+      </div>
+    </section>
+    <section class="world" data-scene="tabletop">
+      <div class="wrap story-section">
+        <p class="eyebrow">Tabletop RPGs</p>
+        <h2>Roll for initiative</h2>
+        <p class="intro">
+          Curious about tabletop RPGs? The expo has featured breakout games like
+          Dungeons &amp; Dragons and other systems like Cosmere and Star Wars.
+          The Exhibit Hall has also featured Warhammer and Team Yankee
+          miniatures.
+        </p>
+        <a class="text-link" href={signup}
+          >Offer to run a game <span aria-hidden="true">→</span></a
+        >
+      </div>
+    </section>
+    <section id="talks-and-trivia" class="world" data-scene="talks">
+      <div class="wrap story-section">
+        <p class="eyebrow">Fortress of Solitude</p>
+        <h2>Expo talks</h2>
+        <p class="intro">
+          Hear from people who love sharing what they know. Check the expo
+          schedule for topics and times.
+        </p>
+        <a class="text-link" href={`${events}?filter=schedule#schedule`}
+          >Browse the schedule <span aria-hidden="true">→</span></a
+        >
+      </div>
+    </section>
+    <section id="vr-and-ai" class="world" data-scene="vr">
+      <div class="wrap story-section">
+        <h2>Virtual reality</h2>
+        <p class="intro">
+          Try on a VR headset and explore a virtual world. Find the demo in the
+          north wing.
+        </p>
+        <a class="text-link" href={signup}
+          >Volunteer or RSVP <span aria-hidden="true">→</span></a
+        >
+      </div>
+    </section>
+  </div>
+  <section class="world circuitry">
+    <div class="wrap section">
+      <h2>Expo alerts</h2>
+      <Updates />
+    </div>
+  </section>
+</ReviewLayout>

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import debounce from "@utils/debounce.ts";
+import { Input } from "@/components/ui/shadcn/input";
+import React from "react";
+import { useStore } from "zustand";
 import { rsvpStore, type RSVP } from "@/stores/rsvp";
 import {
   type inputType,
@@ -24,34 +25,25 @@ export default function Component({
   inputMode = "text",
   required = false,
 }: Props) {
-  const [, setValue] = useState(rsvpStore.getState().rsvp[id]);
-  useEffect(() => {
-    const unsubscribe = rsvpStore.subscribe((state) => {
-      setValue(state.rsvp[id]);
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-  const store = rsvpStore.getState();
-  const handler = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const value = useStore(rsvpStore, (state) => state.rsvp[id]);
+  const handler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const store = rsvpStore.getState();
     store.setRsvp({
       ...store.rsvp,
       [id]: event.target.value,
     });
+  };
   return (
-    <div>
-      <label htmlFor={id} className="sr-only">
-        {label}
-      </label>
-      <input
+    <div className="signup-field">
+      <label htmlFor={id}>{label}</label>
+      <Input
+        className="form-control"
         type={inputType}
         id={id}
         inputMode={inputMode}
         autoComplete={autocomplete}
-        className="block w-full rounded-lg border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-700 placeholder:text-neutral-500 focus:border-neutral-200 focus:outline-none focus:ring focus:ring-neutral-400 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-600 dark:bg-neutral-700/30 dark:text-neutral-300 dark:placeholder:text-neutral-400 dark:focus:ring-1"
-        placeholder={label}
-        onChange={debounce(handler, 1000)}
+        value={value ?? ""}
+        onChange={handler}
         required={required}
       />
     </div>

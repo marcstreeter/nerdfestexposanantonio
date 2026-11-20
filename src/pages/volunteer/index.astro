@@ -1,8 +1,8 @@
 ---
-import ContactSection from "./ContactSection.astro";
-import MainLayout from "@/layouts/MainLayout.astro";
+import ReviewLayout from "@components/review/ReviewLayout.astro";
+import SignupContent from "@components/signup/SignupContent.astro";
 ---
 
-<MainLayout>
-  <ContactSection />
-</MainLayout>
+<ReviewLayout title="Sign up" preview={false}>
+  <SignupContent />
+</ReviewLayout>

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import debounce from "@utils/debounce.ts";
+import { Textarea } from "@/components/ui/shadcn/textarea";
+import React from "react";
+import { useStore } from "zustand";
 import { rsvpStore, type RSVP } from "@/stores/rsvp";
 
 interface Props {
@@ -8,40 +9,25 @@ interface Props {
   id: keyof RSVP;
 }
 export default ({ label, id, rows = 4 }: Props) => {
-  const [, setValue] = useState(rsvpStore.getState().rsvp[id]);
-  useEffect(() => {
-    const unsubscribe = rsvpStore.subscribe((state) => {
-      setValue(state.rsvp[id]);
+  const value = useStore(rsvpStore, (state) => state.rsvp[id]);
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const store = rsvpStore.getState();
+    store.setRsvp({
+      ...store.rsvp,
+      [id]: event.target.value,
     });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-  const debouncedHandler: React.ChangeEventHandler<HTMLTextAreaElement> =
-    React.useMemo(
-      () =>
-        debounce((e: React.ChangeEvent<HTMLTextAreaElement>) => {
-          const store = rsvpStore.getState();
-          store.setRsvp({
-            ...store.rsvp,
-            [id]: e.target.value,
-          });
-        }, 1000),
-      [id],
-    );
+  };
   return (
-    <div>
-      <label htmlFor={id} className="sr-only">
-        {label}
-      </label>
-      <textarea
+    <div className="signup-field">
+      <label htmlFor={id}>{label}</label>
+      <Textarea
+        className="form-control"
         id={id}
         rows={rows}
         inputMode="text"
         autoComplete="off"
-        className="block w-full rounded-lg border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-700 placeholder:text-neutral-500 focus:border-neutral-200 focus:outline-none focus:ring focus:ring-neutral-400 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-600 dark:bg-neutral-700/30 dark:text-neutral-300 dark:placeholder:text-neutral-400 dark:focus:ring-1"
-        placeholder={label}
-        onChange={debouncedHandler}
+        value={value ?? ""}
+        onChange={handleChange}
       />
     </div>
   );

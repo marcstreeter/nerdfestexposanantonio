@@ -1,0 +1,94 @@
+---
+import { scenePath, storyScenes } from "./story-art";
+
+const motifs = [
+  "circuit",
+  "printer",
+  "chess",
+  "vr",
+  "cards",
+  "tabletop",
+  "arcade",
+  "blocks",
+  "talks",
+] as const;
+---
+
+<svg
+  class="hero-backdrop"
+  viewBox="0 0 1120 600"
+  preserveAspectRatio="xMidYMid slice"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2.25"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  <defs>
+    <pattern
+      id="hero-activity-pattern"
+      width="153"
+      height="144"
+      patternUnits="userSpaceOnUse"
+    >
+      {
+        motifs.map((scene, index) => {
+          const row = Math.floor(index / 3);
+          const column = index % 3;
+          const x = 1 + column * 51 + (row % 2) * 3;
+          const y = 1 + row * 48;
+          return (
+            <path
+              d={scenePath(storyScenes[scene])}
+              transform={`translate(${x} ${y}) scale(.49)`}
+            />
+          );
+        })
+      }
+    </pattern>
+  </defs>
+  <rect
+    width="100%"
+    height="100%"
+    fill="url(#hero-activity-pattern)"
+    stroke="none"></rect>
+</svg>
+
+<style>
+  .hero-backdrop {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    color: var(--story-line);
+    opacity: 0.28;
+    --hero-art-clearance: radial-gradient(
+      ellipse 27% 46% at 76% 52%,
+      #0003 44%,
+      #000 94%
+    );
+    mask-image:
+      linear-gradient(transparent, #000 12%, #000 86%, transparent),
+      var(--hero-art-clearance);
+    mask-composite: intersect;
+  }
+
+  :global(:root[data-background="plain"]) .hero-backdrop {
+    display: none;
+  }
+
+  @media (max-width: 720px) {
+    .hero-backdrop {
+      opacity: 0.22;
+      --hero-art-clearance: radial-gradient(
+        ellipse 48% 46% at 67% 51%,
+        #0005 47%,
+        #000 93%
+      );
+    }
+  }
+</style>

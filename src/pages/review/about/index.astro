@@ -1,0 +1,74 @@
+---
+import ReviewLayout from "@components/review/ReviewLayout.astro";
+import ExpoLineArt from "@components/review/ExpoLineArt.astro";
+import FAQAccordion from "@components/sections/misc/FAQAccordion.tsx";
+import { buttonVariants } from "@/components/ui/shadcn/button";
+import { renderFaqAnswerWithLinks } from "@utils/faqAnswer";
+
+const base = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/review/`;
+const signup = `${base}signup/`;
+const questions = [
+  {
+    question: "Who is the expo for?",
+    answer:
+      "Anyone curious about games, making things, or learning something new. The expo is free and family-friendly. Beginners and experienced hobbyists are welcome.",
+  },
+  {
+    question: "Do I need to RSVP?",
+    answer:
+      "You can attend without an RSVP. Signing up helps us plan for your group and see which activities people are interested in.",
+  },
+  {
+    question: "How can I help before the event?",
+    answer:
+      "Use the signup form to pick a volunteer role. You can offer to host a game table, help with setup, or suggest a demo. Share what you’d like to bring or run in the notes.",
+  },
+  {
+    question: "What should I bring?",
+    answer:
+      "If you have a board game, deck, or RPG materials you’d like to share, feel free to bring them. You can also come to watch, learn, and meet other players.",
+  },
+  {
+    question: "Where is the expo?",
+    answer:
+      "The expo is at 3644 Talley Rd in San Antonio. Use Map & directions in the logo menu for the venue and the expo map to explore the rooms in advance.",
+  },
+];
+const entries = questions.map(({ question, answer }) => ({
+  question,
+  answerHtml: renderFaqAnswerWithLinks(answer),
+}));
+---
+
+<ReviewLayout title="About & FAQ">
+  <section class="world expo-hero">
+    <ExpoLineArt />
+    <div class="wrap section">
+      <h1 class="events-title">About &amp; <em>FAQ</em></h1>
+      <p class="intro">
+        Nerd Fest + Expo is a free community event in San Antonio for tabletop
+        games, makers, and curious people of all ages. Come to play, share a
+        hobby, or help run an activity.
+      </p>
+      <div class="actions">
+        <a class={buttonVariants()} href={signup}>Volunteer or RSVP</a>
+        <a
+          class={buttonVariants({ variant: "outline" })}
+          href={`${base}events/`}>Browse the schedule</a
+        >
+        <a
+          class={buttonVariants({ variant: "outline" })}
+          href={`${base}#arcade`}>Explore the expo map</a
+        >
+      </div>
+    </div>
+  </section>
+  <section class="world circuitry" aria-labelledby="about-faq">
+    <div class="wrap section">
+      <h2 id="about-faq" class="mb-6">Before you go</h2>
+      <div class="max-w-3xl rounded-xl border border-border bg-card p-4 sm:p-6">
+        <FAQAccordion client:load entries={entries} review />
+      </div>
+    </div>
+  </section>
+</ReviewLayout>
