@@ -7,6 +7,7 @@ import HeroBackdrop from "@components/review/HeroBackdrop.astro";
 import StoryArt from "@components/review/StoryArt.astro";
 import {
   boardGameHost,
+  expoSpeaker,
   livePrinting,
 } from "@components/signup/volunteer-roles";
 
@@ -133,11 +134,11 @@ const signup = `${siteBase}review/signup/`;
         <p class="eyebrow">Fortress of Solitude</p>
         <h2>Expo talks</h2>
         <p class="intro">
-          Hear from people who love sharing what they know. Check the expo
-          schedule for topics and times.
+          Have a hobby, project, or favorite topic to share? Tell us what you’d
+          like to speak about in your signup notes.
         </p>
-        <a class="text-link" href={`${events}?filter=schedule#schedule`}
-          >Browse the schedule <span aria-hidden="true">→</span></a
+        <a class="text-link" href={`${signup}?volunteer=${expoSpeaker.id}`}
+          >Volunteer to give a talk <span aria-hidden="true">→</span></a
         >
       </div>
     </section>

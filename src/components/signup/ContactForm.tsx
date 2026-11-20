@@ -4,7 +4,7 @@ import { browserStore } from "@/stores/uuid.ts";
 import { Button } from "@/components/ui/shadcn/button";
 import { Card } from "@/components/ui/shadcn/card";
 import SelectInput from "./SelectedInput.tsx";
-import { boardGameHost, livePrinting } from "./volunteer-roles";
+import { boardGameHost, expoSpeaker, livePrinting } from "./volunteer-roles";
 import NameFirstInput from "@components/ui/forms/NameFirstInput.tsx";
 import NameLastInput from "@components/ui/forms/NameLastInput.tsx";
 import Checkbox from "@components/ui/forms/Checkbox.tsx";
@@ -20,7 +20,11 @@ export default function ContactForm() {
   useEffect(() => {
     const url = new URL(location.href);
     const role = url.searchParams.get("volunteer");
-    if (role !== boardGameHost.id && role !== livePrinting.id) return;
+    if (
+      !role ||
+      ![boardGameHost, expoSpeaker, livePrinting].some(({ id }) => id === role)
+    )
+      return;
 
     const { rsvp, setRsvp } = rsvpStore.getState();
     if (!rsvp.Interests.includes(role)) {
@@ -169,6 +173,7 @@ export default function ContactForm() {
             otherLabel="Other volunteer role"
             options={[
               boardGameHost,
+              expoSpeaker,
               { label: "Setup", id: "volunteer-setup" },
               { label: "Take down", id: "volunteer-take-down" },
               { label: "Raffle desk", id: "volunteer-raffle-desk" },
