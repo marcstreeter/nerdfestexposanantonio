@@ -42,12 +42,10 @@ We set the language of the page to English and add classes for scrollbar and scr
     Setting up the main structure of the page.
     The Navbar is placed at the top, with a slot for the main content and FooterSection at the bottom.
     -->
-    <div class="mx-auto max-w-screen-2xl px-0 sm:px-0">
-      <Navbar />
-      <main>
-        <slot />
-      </main>
-    </div>
+    <Navbar />
+    <main class="mx-auto max-w-screen-2xl">
+      <slot />
+    </main>
     <FooterSection />
     <style>
       /* CSS rules for the page scrollbar */

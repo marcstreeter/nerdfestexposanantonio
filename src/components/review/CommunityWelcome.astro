@@ -1,0 +1,21 @@
+---
+interface Props {
+  showAttendanceInfo?: boolean;
+}
+
+const { showAttendanceInfo = true } = Astro.props;
+---
+
+{
+  showAttendanceInfo && (
+    <p class="intro">
+      Attend as much or as little as you’d like, and bring friends and family.
+      The expo is free to the community thanks to our hosts and volunteers.
+    </p>
+  )
+}
+<p class="intro">
+  Our host is the Valley Ranch Ward of The Church of Jesus Christ of Latter-day
+  Saints. We expect 200 or more attendees from across the community. Please help
+  us keep the expo welcoming and peaceful for everyone.
+</p>

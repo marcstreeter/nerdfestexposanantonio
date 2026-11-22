@@ -1,6 +1,7 @@
 ---
 import { buttonVariants } from "@/components/ui/shadcn/button";
 import ReviewLayout from "@components/review/ReviewLayout.astro";
+import CommunityWelcome from "@components/review/CommunityWelcome.astro";
 import HeroBackdrop from "@components/review/HeroBackdrop.astro";
 import StoryArt from "@components/review/StoryArt.astro";
 import {
@@ -153,4 +154,10 @@ const signup = `${siteBase}review/signup/`;
       </div>
     </section>
   </div>
+  <section class="world circuitry" aria-labelledby="community-welcome">
+    <div class="wrap section">
+      <h2 id="community-welcome">Everyone is welcome</h2>
+      <CommunityWelcome />
+    </div>
+  </section>
 </ReviewLayout>

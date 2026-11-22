@@ -223,6 +223,13 @@ html:has(.site-menu[open]) {
   font-weight: 600;
 }
 @media (width < 62rem) {
+  html {
+    scroll-padding-block-start: calc(4.5rem + 1px);
+  }
+  .masthead {
+    position: sticky;
+    inset-block-start: 0;
+  }
   .site-menu-monogram,
   .site-menu-monogram-tail {
     grid-auto-flow: column;

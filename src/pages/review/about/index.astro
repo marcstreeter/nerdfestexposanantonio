@@ -1,5 +1,6 @@
 ---
 import ReviewLayout from "@components/review/ReviewLayout.astro";
+import CommunityWelcome from "@components/review/CommunityWelcome.astro";
 import ExpoLineArt from "@components/review/ExpoLineArt.astro";
 import FAQAccordion from "@components/sections/misc/FAQAccordion.tsx";
 import { buttonVariants } from "@/components/ui/shadcn/button";
@@ -44,28 +45,25 @@ const entries = questions.map(({ question, answer }) => ({
   <section class="world expo-hero">
     <ExpoLineArt />
     <div class="wrap section">
-      <h1 class="events-title">About &amp; <em>FAQ</em></h1>
+      <h1 class="events-title">About</h1>
       <p class="intro">
-        Nerd Fest + Expo is a free community event in San Antonio for tabletop
-        games, makers, and curious people of all ages. Come to play, share a
-        hobby, or help run an activity.
+        Nerd Fest + Expo is a community event in San Antonio for tabletop games,
+        makers, and curious people of all ages. Come to play, share a hobby, or
+        help run an activity.
       </p>
+      <CommunityWelcome showAttendanceInfo={false} />
       <div class="actions">
         <a class={buttonVariants()} href={signup}>Volunteer or RSVP</a>
         <a
           class={buttonVariants({ variant: "outline" })}
-          href={`${base}events/`}>Browse the schedule</a
-        >
-        <a
-          class={buttonVariants({ variant: "outline" })}
-          href={`${base}events/#arcade`}>Explore the expo map</a
+          href={`${base}events/`}>Explore</a
         >
       </div>
     </div>
   </section>
   <section class="world circuitry" aria-labelledby="about-faq">
     <div class="wrap section">
-      <h2 id="about-faq" class="mb-6">Before you go</h2>
+      <h2 id="about-faq" class="mb-6">FAQ</h2>
       <div class="max-w-3xl rounded-xl border border-border bg-card p-4 sm:p-6">
         <FAQAccordion client:load entries={entries} review />
       </div>

@@ -78,8 +78,8 @@ export default function SiteMenu({
   const links = [
     ...(home ? [home] : []),
     { href: events.href, label: "Events", current: events.current },
-    ...(about ? [{ href: about, label: "About & FAQ" }] : []),
-    ...(presenters ? [{ href: presenters, label: "Presenter login" }] : []),
+    ...(about ? [{ href: about, label: "About" }] : []),
+    ...(presenters ? [{ href: presenters, label: "Sign In" }] : []),
   ];
   return (
     <>
