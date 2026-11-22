@@ -4,3 +4,22 @@
   --ui-destructive: #b42318;
   --ui-on-destructive: #fff;
 }
+
+:root[data-page-theme="chip"] {
+  color-scheme: dark;
+  touch-action: pan-x pan-y;
+  --page: #101e19;
+  --masthead: #0b1712;
+  --surface: #1b2822;
+  --text: #f2f9e9;
+  --muted: #c9d7c8;
+  --accent: #e2f7a1;
+  --on-accent: #101e19;
+  --link: #d2f18f;
+  --wordmark: var(--accent);
+  --logo-plus: var(--text);
+  --line: #66805b;
+  --story-line: #b8d979;
+  --circuit-background: #385846;
+  --expo-background: #233d2e;
+}

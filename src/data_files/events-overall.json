@@ -3,35 +3,84 @@
   "items": [
     {
       "question": "1pm",
-      "answer": "DOORS OPEN! 1st 20 attendees get raffle ticket @Double Doors"
+      "answer": "DOORS OPEN! 1st 20 attendees get raffle ticket @Double Doors",
+      "id": "doors-open",
+      "title": "Doors open",
+      "description": "The first 20 attendees receive a raffle ticket at the double doors.",
+      "hosts": [],
+      "venue": "Double Doors",
+      "room": "entrance"
     },
     {
       "question": "1:15",
-      "answer": "Welcome / Kickoff By W. Garrett Myler @Chapel (Broadcast)"
+      "answer": "Welcome / Kickoff By W. Garrett Myler @Chapel (Broadcast)",
+      "id": "opening-remarks",
+      "title": "Welcome and kickoff",
+      "description": "Opening remarks, with a broadcast from the chapel.",
+      "hosts": ["W. Garrett Myler"],
+      "venue": "Chapel",
+      "room": "Chapel"
     },
     {
       "question": "1:45",
-      "answer": "\"Nerds in the Military\" Panel Discussion J. Thaden, P. Weller, & G. Myler @Fortress of Solitude"
+      "answer": "\"Nerds in the Military\" Panel Discussion J. Thaden, P. Weller, & G. Myler @Fortress of Solitude",
+      "id": "nerds-in-the-military",
+      "title": "Nerds in the Military",
+      "description": "A panel discussion about nerd culture in military life.",
+      "hosts": ["J. Thaden", "P. Weller", "G. Myler"],
+      "venue": "Fortress of Solitude",
+      "room": "Fortress of Solitude"
     },
     {
       "question": "2:30",
-      "answer": "GIVEAWAY #1 @Gym"
+      "answer": "GIVEAWAY #1 @Gym",
+      "id": "giveaway-1",
+      "title": "Giveaway #1",
+      "description": "The first expo giveaway.",
+      "hosts": [],
+      "venue": "Gym",
+      "room": "Exhibit Hall"
     },
     {
       "question": "2:45pm",
-      "answer": "\"Nerd Culture Trivia Game Show\" By Paul Kailiponi @Fortress of Solitude"
+      "answer": "\"Nerd Culture Trivia Game Show\" By Paul Kailiponi @Fortress of Solitude",
+      "id": "nerd-culture-trivia",
+      "title": "Nerd Culture Trivia Game Show",
+      "description": "A trivia game show about nerd culture.",
+      "hosts": ["Paul Kailiponi"],
+      "venue": "Fortress of Solitude",
+      "room": "Fortress of Solitude"
     },
     {
       "question": "3:45pm",
-      "answer": "GIVEAWAY #2 @Gym"
+      "answer": "GIVEAWAY #2 @Gym",
+      "id": "giveaway-2",
+      "title": "Giveaway #2",
+      "description": "The second expo giveaway.",
+      "hosts": [],
+      "venue": "Gym",
+      "room": "Exhibit Hall"
     },
     {
       "question": "4:00pm",
-      "answer": "\"Wireless Hacking w/ Flipper Zero\" By Mark Walker @Fortress of Solitude"
+      "answer": "\"Wireless Hacking w/ Flipper Zero\" By Mark Walker @Fortress of Solitude",
+      "id": "wireless-hacking-talk",
+      "title": "Wireless Hacking w/ Flipper Zero",
+      "description": "A talk about wireless security and the Flipper Zero.",
+      "hosts": ["Mark Walker"],
+      "venue": "Fortress of Solitude",
+      "room": "Fortress of Solitude"
     },
     {
       "question": "4:45pm",
-      "answer": "GIVEAWAY #3 / Closing Remarks @Gym"
+      "answer": "GIVEAWAY #3 / Closing Remarks @Gym",
+      "id": "giveaway-3",
+      "title": "Giveaway #3 and closing remarks",
+      "description": "The final giveaway and closing remarks.",
+      "hosts": [],
+      "venue": "Gym",
+      "room": "Exhibit Hall"
     }
-  ]
+  ],
+  "edition": "2026"
 }

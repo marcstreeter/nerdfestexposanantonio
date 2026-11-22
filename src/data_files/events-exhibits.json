@@ -3,19 +3,43 @@
   "items": [
     {
       "question": "3D Printer: Bambu A1C",
-      "answer": "Provided By Anika"
+      "answer": "Provided By Anika",
+      "id": "bambu-anika",
+      "title": "Bambu A1C 3D printer",
+      "description": "A Bambu A1C filament printer exhibit.",
+      "hosts": ["Anika"],
+      "venue": "Exhibit Hall",
+      "room": "Exhibit Hall"
     },
     {
       "question": "3D Printer: Bambu A1C",
-      "answer": "Provided By Kael"
+      "answer": "Provided By Kael",
+      "id": "bambu-kael",
+      "title": "Bambu A1C 3D printer",
+      "description": "A Bambu A1C filament printer exhibit.",
+      "hosts": ["Kael"],
+      "venue": "Exhibit Hall",
+      "room": "Exhibit Hall"
     },
     {
       "question": "3D Printer: 3D Wasp (clay)",
-      "answer": "Provided By Marc Streeter"
+      "answer": "Provided By Marc Streeter",
+      "id": "wasp-clay",
+      "title": "WASP clay 3D printer",
+      "description": "A WASP printer that builds objects layer by layer in clay.",
+      "hosts": ["Marc Streeter"],
+      "venue": "Exhibit Hall",
+      "room": "Exhibit Hall"
     },
     {
       "question": "3D Printer: ???",
-      "answer": "Provided By BiblioTech"
+      "answer": "Provided By BiblioTech",
+      "id": "bibliotech-printer",
+      "title": "BiblioTech 3D printing exhibit",
+      "description": "A 3D printing exhibit provided by BiblioTech.",
+      "hosts": ["BiblioTech"],
+      "venue": "Exhibit Hall",
+      "room": "Exhibit Hall"
     }
   ]
 }

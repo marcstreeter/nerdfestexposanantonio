@@ -87,12 +87,6 @@
   --expo-background: #38302b;
 }
 
-:root[data-palette="og"] .brand {
-  font-size: clamp(1.125rem, 2.25vw, 1.75rem);
-  font-weight: 400;
-  letter-spacing: normal;
-}
-
 :root[data-palette="og"] :is(h1, h2) {
   font-weight: 700;
   letter-spacing: -0.025em;

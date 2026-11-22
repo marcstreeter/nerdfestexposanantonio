@@ -1,0 +1,185 @@
+---
+import { Button } from "@/components/ui/shadcn/button";
+import { Input } from "@/components/ui/shadcn/input";
+import Select from "@components/ui/forms/Select.tsx";
+
+const signupPath = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/volunteer/`;
+---
+
+<div data-event-alerts>
+  <div data-alert-rsvp>
+    <Button asChild><a href={signupPath}>RSVP to get Event Updates</a></Button>
+  </div>
+  <form hidden>
+    <fieldset>
+      <label>
+        Send updates by
+        <Select
+          name="channel"
+          options={[
+            { value: "email", label: "Email" },
+            { value: "sms", label: "Text message" },
+          ]}
+        />
+      </label>
+      <label data-alert-destination hidden>
+        <span>Email address</span>
+        <Input
+          name="destination"
+          type="email"
+          className="form-control"
+          disabled
+        />
+      </label>
+      <Button type="submit">Request updates</Button>
+    </fieldset>
+    <p role="status" aria-live="polite"></p>
+  </form>
+</div>
+
+<script>
+  import { eventAlertsEndpoint } from "@/lib/rsvp-api";
+  import { browserStore } from "@/stores/uuid";
+  import { rsvpStore } from "@/stores/rsvp";
+
+  const alerts = document.querySelector<HTMLElement>("[data-event-alerts]");
+  if (alerts) {
+    const form = alerts.querySelector("form")!;
+    const rsvp = alerts.querySelector<HTMLElement>("[data-alert-rsvp]")!;
+
+    function updateRegistration() {
+      const registered = rsvpStore.getState().sent.length > 0;
+      rsvp.hidden = registered;
+      form.hidden = !registered;
+    }
+
+    updateRegistration();
+    addEventListener("pageshow", () => {
+      void rsvpStore.persist.rehydrate();
+      updateRegistration();
+    });
+    const fields = form.querySelector("fieldset")!;
+    const channel = form.querySelector<HTMLSelectElement>("[name=channel]")!;
+    const destination =
+      form.querySelector<HTMLInputElement>("[name=destination]")!;
+    const label = form.querySelector<HTMLLabelElement>(
+      "[data-alert-destination]",
+    )!;
+    const status = form.querySelector<HTMLElement>("[role=status]")!;
+    let eventId = new URL(location.href).searchParams.get("event") ?? "";
+    let pending: AbortController | undefined;
+
+    function resetContact() {
+      label.hidden = true;
+      destination.value = "";
+      destination.required = false;
+      destination.disabled = true;
+      status.textContent = "";
+    }
+
+    function askForContact() {
+      const email = channel.value === "email";
+      label.querySelector("span")!.textContent = email
+        ? "Email address"
+        : "Phone number";
+      destination.type = email ? "email" : "tel";
+      destination.autocomplete = email ? "email" : "tel";
+      label.hidden = false;
+      destination.disabled = false;
+      destination.required = true;
+      status.textContent = email
+        ? "Enter an email address for updates about this event."
+        : "Enter a mobile number for updates about this event.";
+    }
+
+    channel.addEventListener("change", resetContact);
+    document.addEventListener("nerdfest:event-selected", (event) => {
+      eventId = (event as CustomEvent<string>).detail;
+      pending?.abort();
+      pending = undefined;
+      fields.disabled = false;
+      form.reset();
+      resetContact();
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (form.hidden || !eventId || pending) return;
+      const { uuid } = browserStore.getState().unique;
+      if (!uuid) {
+        status.textContent = "Enable browser storage to request event updates.";
+        return;
+      }
+
+      const request = new AbortController();
+      pending = request;
+      fields.disabled = true;
+      status.textContent = "Saving your request…";
+      try {
+        const response = await fetch(eventAlertsEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "event-alert-subscribe",
+            event_id: eventId,
+            browser_uuid: uuid,
+            channel: channel.value,
+            destination: label.hidden ? undefined : destination.value.trim(),
+          }),
+          signal: request.signal,
+        });
+        const result = await response.json();
+        if (pending !== request) return;
+        if (response.status === 409 && result.error === "contact_required") {
+          askForContact();
+        } else if (
+          response.status === 400 &&
+          result.error === "invalid_contact"
+        ) {
+          status.textContent = "Check the contact information and try again.";
+        } else if (response.ok && result.registered === true) {
+          resetContact();
+          status.textContent = "Your request for event updates is saved.";
+        } else {
+          throw new Error("Event update registration unavailable");
+        }
+      } catch {
+        if (pending === request) {
+          status.textContent =
+            "Event update requests are unavailable right now. Try again later.";
+        }
+      } finally {
+        if (pending === request) {
+          pending = undefined;
+          fields.disabled = false;
+          if (!label.hidden) destination.focus();
+        }
+      }
+    });
+  }
+</script>
+
+<style>
+  [data-event-alerts] {
+    margin-top: 1.25rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--line);
+  }
+  fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 0.85rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  label {
+    display: grid;
+    gap: 0.4rem;
+    flex: 1 1 12rem;
+  }
+  [role="status"]:empty {
+    display: none;
+  }
+</style>

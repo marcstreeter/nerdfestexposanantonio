@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { rsvpStore } from "@/stores/rsvp";
 import { browserStore } from "@/stores/uuid.ts";
+import { rsvpEndpoint } from "@/lib/rsvp-api";
 import { Button } from "@/components/ui/shadcn/button";
 import { Card } from "@/components/ui/shadcn/card";
 import SelectInput from "./SelectedInput.tsx";
@@ -66,9 +67,7 @@ export default function ContactForm() {
             : undefined,
         },
       };
-      const endpoint =
-        "https://bivqb6ix45.execute-api.us-west-2.amazonaws.com/nerdfest-satx-rsvp";
-      const response = await fetch(endpoint, {
+      const response = await fetch(rsvpEndpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

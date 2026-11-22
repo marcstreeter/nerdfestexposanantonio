@@ -1,3 +1,5 @@
+import type { storyScenes } from "./story-art";
+
 export type Point = readonly [number, number];
 type Rect = readonly [left: number, top: number, width: number, height: number];
 type Door = readonly [inside: Point, hallway: Point];
@@ -5,49 +7,115 @@ type Door = readonly [inside: Point, hallway: Point];
 export interface ExpoRoom {
   name: string;
   label: string;
+  icon?: Exclude<keyof typeof storyScenes, "welcome">;
   area: Rect;
   doors: Door[];
   description: string;
-  scheduleVenue?: string;
-  chip?: false;
+  amenity?: "restroom-women" | "restroom-men" | "restroom-family";
 }
 
-export const width = 36;
-export const height = 19;
-export const entrance: Point = [14, 17];
+export const width = 72;
+export const height = 40;
+export const entrance: Point = [27, 38];
 
-// The room positions follow the supplied floor plan, with simplified corridors.
+const northFoyer = { name: "North Foyer", area: [24, 2, 6, 10] } as const;
+export const southFoyer = {
+  name: "South Foyer",
+  area: [24, 28, 6, 11],
+} as const;
+export const foyers = [northFoyer, southFoyer];
+export const backExit = {
+  name: "Back Exit",
+  area: [62, 18, 8, 4],
+} as const;
+
+export const exits: {
+  point: Point;
+  edge: "north" | "east" | "south" | "west";
+}[] = [
+  { point: [27, 2], edge: "north" },
+  { point: [69, 20], edge: "east" },
+  { point: entrance, edge: "south" },
+  { point: [60, 38], edge: "south" },
+  { point: [1, 13], edge: "west" },
+  { point: [1, 27], edge: "west" },
+];
+
+function divideRoomRow(
+  [left, top, width, height]: Rect,
+  count: number,
+): Rect[] {
+  const roomWidth = width / count;
+  return Array.from({ length: count }, (_, index) => [
+    left + index * roomWidth,
+    top,
+    roomWidth,
+    height,
+  ]);
+}
+
+export const unprogrammedRooms: Rect[] = [
+  ...divideRoomRow([1, 2, 18, 10], 4),
+  ...divideRoomRow([35, 2, 11, 10], 3),
+  ...divideRoomRow([1, 28, 11, 11], 2),
+  [30, 28, 5, 11],
+  [58, 2, 4, 10],
+  [50, 28, 9, 11],
+];
+
+// Relative room positions follow the floor plan within a rectangular outline.
 export const rooms: ExpoRoom[] = [
   {
     name: "Chapel",
     label: "CHAPEL",
-    area: [1, 8, 11, 4],
+    icon: "talks",
+    area: [1, 14, 25, 12],
     doors: [
       [
-        [10, 8],
-        [10, 7],
+        [7, 14],
+        [7, 13],
       ],
       [
-        [10, 11],
-        [10, 12],
+        [24, 14],
+        [24, 13],
+      ],
+      [
+        [11, 25],
+        [11, 26],
+      ],
+      [
+        [24, 25],
+        [24, 26],
       ],
     ],
     description:
       "Opening remarks. The floor plan marks the chapel closed after the kickoff.",
-    scheduleVenue: "Chapel",
   },
   {
     name: "Exhibit Hall",
     label: "EXHIBITS",
-    area: [14, 8, 9, 4],
+    icon: "printer",
+    area: [26, 14, 24, 12],
     doors: [
       [
-        [18, 8],
-        [18, 7],
+        [29, 14],
+        [29, 13],
       ],
       [
-        [18, 11],
-        [18, 12],
+        [39, 14],
+        [39, 13],
+      ],
+      [
+        [44, 14],
+        [44, 13],
+      ],
+      [
+        [29, 25],
+        [29, 26],
+      ],
+      [
+        [39, 25],
+        [39, 26],
       ],
     ],
     description:
@@ -56,11 +124,16 @@ export const rooms: ExpoRoom[] = [
   {
     name: "Tech Town",
     label: "TECH",
-    area: [24, 8, 4, 2],
+    icon: "circuit",
+    area: [50, 14, 10, 5],
     doors: [
       [
-        [25, 8],
-        [25, 7],
+        [53, 14],
+        [53, 13],
+      ],
+      [
+        [58, 14],
+        [58, 13],
       ],
     ],
     description: "Hands-on electronics and demos.",
@@ -68,25 +141,30 @@ export const rooms: ExpoRoom[] = [
   {
     name: "Fortress of Solitude",
     label: "FORTRESS",
-    area: [31, 3, 4, 6],
+    icon: "talks",
+    area: [62, 2, 8, 16],
     doors: [
       [
-        [32, 8],
-        [32, 9],
+        [62, 12],
+        [61, 12],
+      ],
+      [
+        [66, 17],
+        [66, 18],
       ],
     ],
     description:
       "Talks, panel discussions, and the Nerd Culture Trivia Game Show.",
-    scheduleVenue: "Fortress of Solitude",
   },
   {
     name: "Block Builder Village",
     label: "BLOCKS",
-    area: [9, 1, 3, 3],
+    icon: "blocks",
+    area: [19, 2, 5, 6],
     doors: [
       [
-        [9, 3],
-        [8, 3],
+        [23, 5],
+        [24, 5],
       ],
     ],
     description: "An area for building with blocks.",
@@ -94,11 +172,12 @@ export const rooms: ExpoRoom[] = [
   {
     name: "Retro Games",
     label: "RETRO",
-    area: [9, 4, 5, 2],
+    icon: "arcade",
+    area: [19, 8, 5, 4],
     doors: [
       [
-        [11, 5],
-        [11, 6],
+        [23, 9],
+        [24, 9],
       ],
     ],
     description: "Retro video games in the north wing.",
@@ -106,11 +185,12 @@ export const rooms: ExpoRoom[] = [
   {
     name: "Other RPGs",
     label: "RPG",
-    area: [15, 1, 3, 4],
+    icon: "tabletop",
+    area: [30, 2, 5, 5],
     doors: [
       [
-        [15, 4],
-        [15, 5],
+        [34, 6],
+        [34, 7],
       ],
     ],
     description: "More tabletop role-playing games in the north wing.",
@@ -118,11 +198,11 @@ export const rooms: ExpoRoom[] = [
   {
     name: "AI Magic Mirror",
     label: "AI",
-    area: [22, 3, 3, 3],
+    area: [46, 2, 6, 10],
     doors: [
       [
-        [23, 5],
-        [23, 6],
+        [48, 11],
+        [48, 12],
       ],
     ],
     description: "Find the AI Magic Mirror demonstration here.",
@@ -130,11 +210,12 @@ export const rooms: ExpoRoom[] = [
   {
     name: "Virtual Reality",
     label: "VR",
-    area: [25, 3, 3, 3],
+    icon: "vr",
+    area: [52, 2, 6, 10],
     doors: [
       [
-        [26, 5],
-        [26, 6],
+        [54, 11],
+        [54, 12],
       ],
     ],
     description: "The VR demo area next to the AI Magic Mirror.",
@@ -142,11 +223,16 @@ export const rooms: ExpoRoom[] = [
   {
     name: "Board Game Village",
     label: "BOARD",
-    area: [5, 14, 4, 3],
+    icon: "tabletop",
+    area: [12, 28, 7, 11],
     doors: [
       [
-        [7, 14],
-        [7, 13],
+        [13, 28],
+        [13, 27],
+      ],
+      [
+        [18, 28],
+        [18, 27],
       ],
     ],
     description: "A room for board games next to the chess room.",
@@ -154,11 +240,12 @@ export const rooms: ExpoRoom[] = [
   {
     name: "Chess",
     label: "CHESS",
-    area: [9, 14, 3, 2],
+    icon: "chess",
+    area: [19, 28, 5, 5],
     doors: [
       [
-        [10, 14],
-        [10, 13],
+        [23, 30],
+        [24, 30],
       ],
     ],
     description: "The chess room in the southwest wing.",
@@ -166,11 +253,12 @@ export const rooms: ExpoRoom[] = [
   {
     name: "Dungeons & Dragons",
     label: "D&D",
-    area: [9, 16, 3, 2],
+    icon: "tabletop",
+    area: [19, 33, 5, 6],
     doors: [
       [
-        [11, 17],
-        [12, 17],
+        [23, 36],
+        [24, 36],
       ],
     ],
     description: "A Dungeons & Dragons room near the south entrance.",
@@ -178,11 +266,12 @@ export const rooms: ExpoRoom[] = [
   {
     name: "Learn to Play or DM",
     label: "D&D",
-    area: [17, 14, 3, 3],
+    icon: "tabletop",
+    area: [35, 28, 5, 11],
     doors: [
       [
-        [18, 14],
-        [18, 13],
+        [37, 28],
+        [37, 27],
       ],
     ],
     description:
@@ -191,11 +280,12 @@ export const rooms: ExpoRoom[] = [
   {
     name: "Cosmere or D&D",
     label: "RPG",
-    area: [20, 14, 3, 3],
+    icon: "tabletop",
+    area: [40, 28, 5, 11],
     doors: [
       [
-        [21, 14],
-        [21, 13],
+        [42, 28],
+        [42, 27],
       ],
     ],
     description:
@@ -204,11 +294,12 @@ export const rooms: ExpoRoom[] = [
   {
     name: "D&D or Star Wars RPG",
     label: "RPG",
-    area: [23, 14, 3, 3],
+    icon: "tabletop",
+    area: [45, 28, 5, 11],
     doors: [
       [
-        [24, 14],
-        [24, 13],
+        [47, 28],
+        [47, 27],
       ],
     ],
     description:
@@ -217,46 +308,71 @@ export const rooms: ExpoRoom[] = [
   {
     name: "Magic: The Gathering and Pokémon",
     label: "CARDS",
-    area: [31, 11, 4, 6],
+    icon: "cards",
+    area: [62, 22, 8, 17],
     doors: [
       [
-        [32, 11],
-        [32, 10],
+        [62, 27],
+        [61, 27],
+      ],
+      [
+        [66, 22],
+        [66, 21],
       ],
     ],
     description:
       "The trading-card game room for Magic: The Gathering and Pokémon.",
   },
   {
-    name: "Restrooms",
+    name: "Women's restroom",
     label: "WC",
-    area: [24, 10, 4, 2],
+    amenity: "restroom-women",
+    area: [50, 19, 5, 7],
     doors: [
       [
-        [27, 11],
-        [28, 11],
+        [53, 25],
+        [53, 26],
       ],
     ],
-    description: "Restrooms on the east side, below Tech Town.",
-    chip: false,
+    description: "Restroom on the south hallway, below Tech Town.",
+  },
+  {
+    name: "Men's restroom",
+    label: "WC",
+    amenity: "restroom-men",
+    area: [55, 19, 5, 7],
+    doors: [
+      [
+        [56, 25],
+        [56, 26],
+      ],
+    ],
+    description: "Restroom below Tech Town, beside the east hallway.",
+  },
+  {
+    name: "Family restroom",
+    label: "WC",
+    amenity: "restroom-family",
+    area: [30, 7, 3, 5],
+    doors: [
+      [
+        [32, 9],
+        [33, 9],
+      ],
+    ],
+    description: "Family restroom off the small hall below Other RPGs.",
   },
 ];
 
-const halls: Rect[] = [
-  [2, 6, 28, 1],
-  [2, 13, 28, 1],
-  [12, 6, 1, 12],
-  [29, 6, 1, 8],
-  [30, 9, 6, 2],
-  [8, 3, 1, 3],
-  [15, 5, 1, 1],
-  [10, 7, 1, 1],
-  [10, 12, 1, 1],
-  [18, 7, 1, 1],
-  [18, 12, 1, 1],
-  [25, 7, 1, 1],
-  [28, 11, 1, 1],
-  [12, 17, 4, 1],
+const namedAreas = [...foyers, backExit];
+
+export const halls: Rect[] = [
+  [33, 7, 2, 5],
+  [1, 12, 61, 2],
+  [1, 26, 61, 2],
+  [60, 14, 2, 12],
+  ...namedAreas.map(({ area }) => area),
+  [59, 28, 3, 11],
 ];
 
 export const directions = {
@@ -269,11 +385,17 @@ export const directions = {
 export const samePoint = ([ax, ay]: Point, [bx, by]: Point) =>
   ax === bx && ay === by;
 const key = ([x, y]: Point) => `${x},${y}`;
+export const doorwayKey = (from: Point, to: Point) =>
+  [key(from), key(to)].sort().join(":");
 const contains = ([left, top, w, h]: Rect, [x, y]: Point) =>
   x >= left && x < left + w && y >= top && y < top + h;
 
 export function roomAt(point: Point) {
   return rooms.find((room) => contains(room.area, point));
+}
+
+export function areaNameAt(point: Point) {
+  return namedAreas.find(({ area }) => contains(area, point))?.name;
 }
 
 export function isHall(point: Point) {
