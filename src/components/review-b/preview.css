@@ -78,20 +78,6 @@
   align-items: center;
   gap: 0.25rem 1.25rem;
 }
-.retro-nav nav > a:not(.retro-button) {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  gap: 0.25em;
-  font-size: 0.9rem;
-  font-weight: 650;
-  text-decoration: none;
-}
-.retro-nav nav > a:not(.retro-button):is(:hover, [aria-current]) {
-  color: var(--cyan);
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
-}
 .retro-menu-trigger {
   display: none;
   width: 44px;
