@@ -1,6 +1,6 @@
 ---
 import { buttonVariants } from "@/components/ui/shadcn/button";
-import { dice, scenePath } from "@components/review/story-art";
+import { ArrowRight, ArrowUpRight, Menu, X } from "lucide-react";
 import { previewBase, rsvpUrl } from "./content";
 import "@components/ui/forms/controls.css";
 import "@components/review/theme.css";
@@ -15,6 +15,16 @@ const { title } = Astro.props;
 const current = Astro.url.pathname.replace(/\/$/, "");
 const events = `${previewBase}events/`;
 const signup = `${previewBase}signup/`;
+const links = [
+  { label: "Schedule", href: events, current: current === events.slice(0, -1) },
+  {
+    label: "Volunteer",
+    href: signup,
+    current: current === signup.slice(0, -1),
+    variant: "outline" as const,
+  },
+  { label: "RSVP", href: rsvpUrl, variant: "default" as const, external: true },
+];
 ---
 
 <!doctype html>
@@ -31,40 +41,70 @@ const signup = `${previewBase}signup/`;
     <header class="retro-header">
       <div class="wrap retro-nav">
         <a class="retro-brand" href={previewBase}>
-          <svg
-            viewBox="6 6 88 88"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="4.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d={scenePath(dice)}></path>
-          </svg>
           <span>Nerd Fest <b>+ Expo</b></span>
         </a>
         <nav aria-label="Main navigation">
-          <a
-            href={events}
-            aria-current={current === events.slice(0, -1) ? "page" : undefined}
-            >Schedule</a
-          >
-          <a
-            class={buttonVariants({
-              variant: "outline",
-              className: "retro-button",
-            })}
-            href={signup}
-            aria-current={current === signup.slice(0, -1) ? "page" : undefined}
-            >Volunteer</a
-          >
-          <a
-            class={buttonVariants({ className: "retro-button" })}
-            href={rsvpUrl}>RSVP</a
-          >
+          {
+            links.map(({ label, href, current, variant }) => (
+              <a
+                href={href}
+                aria-current={current ? "page" : undefined}
+                class={
+                  variant &&
+                  buttonVariants({ variant, className: "retro-button" })
+                }
+              >
+                {label}
+              </a>
+            ))
+          }
         </nav>
+        <button
+          type="button"
+          class="retro-menu-trigger"
+          aria-label="Open menu"
+          aria-haspopup="dialog"
+          aria-controls="retro-mobile-menu"
+          aria-expanded="false"
+        >
+          <Menu size={24} aria-hidden="true" />
+        </button>
       </div>
+      <dialog
+        id="retro-mobile-menu"
+        class="site-menu retro-mobile-menu"
+        aria-label="Nerd Fest + Expo menu"
+      >
+        <div class="site-menu-header">
+          <button
+            type="button"
+            class="wrap site-menu-close"
+            aria-label="Close menu"
+            autofocus
+          >
+            <span>Menu</span>
+            <X size={24} aria-hidden="true" />
+          </button>
+        </div>
+        <div class="site-menu-scroll">
+          <div class="wrap site-menu-body">
+            <nav class="site-menu-links" aria-label="Main navigation">
+              {
+                links.map(({ label, href, current, external }) => (
+                  <a href={href} aria-current={current ? "page" : undefined}>
+                    {label}{" "}
+                    {external ? (
+                      <ArrowUpRight aria-hidden="true" />
+                    ) : (
+                      <ArrowRight aria-hidden="true" />
+                    )}
+                  </a>
+                ))
+              }
+            </nav>
+          </div>
+        </div>
+      </dialog>
     </header>
     <main id="content"><slot /></main>
     <footer class="retro-footer">
@@ -74,3 +114,29 @@ const signup = `${previewBase}signup/`;
     </footer>
   </body>
 </html>
+
+<script>
+  const menu = document.querySelector<HTMLDialogElement>("#retro-mobile-menu");
+  const trigger = document.querySelector<HTMLButtonElement>(
+    ".retro-menu-trigger",
+  );
+
+  if (menu && trigger) {
+    trigger.addEventListener("click", () => {
+      menu.showModal();
+      trigger.setAttribute("aria-expanded", "true");
+    });
+    menu
+      .querySelector(".site-menu-close")
+      ?.addEventListener("click", () => menu.close());
+    menu.addEventListener("close", () =>
+      trigger.setAttribute("aria-expanded", "false"),
+    );
+
+    const narrow = matchMedia("(max-width: 43rem)");
+    narrow.addEventListener("change", () => {
+      if (!narrow.matches) menu.close();
+    });
+    window.addEventListener("pagehide", () => menu.close());
+  }
+</script>
