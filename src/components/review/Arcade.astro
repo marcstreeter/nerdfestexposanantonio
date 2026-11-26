@@ -22,6 +22,12 @@ import {
   width,
 } from "./expo-map";
 
+interface Props {
+  showEventAlerts?: boolean;
+  showRoomPicker?: boolean;
+}
+
+const { showEventAlerts = true, showRoomPicker = true } = Astro.props;
 const locations = [
   ...rooms,
   { name: southFoyer.name, description: "Check-in at the double doors." },
@@ -114,10 +120,14 @@ for (let y = 0; y < height; y++) {
           ></path>
         </g>
       </defs>
-      <g fill="#263b30">
+      <g fill="var(--map-hall, #263b30)">
         {halls.map(([x, y, w, h]) => <rect x={x} y={y} width={w} height={h} />)}
       </g>
-      <g fill="#202c26" stroke="#607266" stroke-width=".08">
+      <g
+        fill="var(--map-unused-room, #202c26)"
+        stroke="var(--map-unused-wall, #607266)"
+        stroke-width=".08"
+      >
         {
           unprogrammedRooms.map(([x, y, w, h]) => (
             <rect x={x} y={y} width={w} height={h} />
@@ -132,7 +142,9 @@ for (let y = 0; y < height; y++) {
           const size = Math.min(w - 0.4, iconAreaHeight, 4.5);
           const left = x + (w - size) / 2;
           const top = y + labelHeight + (iconAreaHeight - size) / 2;
-          const ink = amenity ? "#b2f4ff" : "#e2f7a1";
+          const ink = amenity
+            ? "var(--map-amenity-ink, #b2f4ff)"
+            : "var(--map-ink, #e2f7a1)";
           return (
             <g data-map-room={index}>
               <rect
@@ -140,7 +152,11 @@ for (let y = 0; y < height; y++) {
                 y={y}
                 width={w}
                 height={h}
-                fill={amenity ? "#30565a" : "#385846"}
+                fill={
+                  amenity
+                    ? "var(--map-amenity, #30565a)"
+                    : "var(--map-room, #385846)"
+                }
               />
               {motif && (
                 <use
@@ -171,9 +187,13 @@ for (let y = 0; y < height; y++) {
       <path
         d={[...walls].join("")}
         fill="none"
-        stroke="#82a85c"
+        stroke="var(--map-wall, #82a85c)"
         stroke-width=".1"></path>
-      <g class="game-map-labels" fill="#e2f7a1" text-anchor="middle">
+      <g
+        class="game-map-labels"
+        fill="var(--map-ink, #e2f7a1)"
+        text-anchor="middle"
+      >
         {
           foyers.map(({ name, area: [x, y, w, h] }) => (
             <text x={x + w / 2} y={y + h / 2}>
@@ -189,11 +209,19 @@ for (let y = 0; y < height; y++) {
           ))
         }
       </g>
-      <g class="game-map-labels" fill="#ffe1a3" text-anchor="middle">
+      <g
+        class="game-map-labels"
+        fill="var(--map-exit, #ffe1a3)"
+        text-anchor="middle"
+      >
         {
           exitMarkers.map(({ line, x, y, label = "EXIT" }) => (
             <g data-map-exit>
-              <path d={line} stroke="#ffe1a3" stroke-width={doorStrokeWidth} />
+              <path
+                d={line}
+                stroke="var(--map-exit, #ffe1a3)"
+                stroke-width={doorStrokeWidth}
+              />
               <text x={x} y={y}>
                 {label}
               </text>
@@ -201,16 +229,16 @@ for (let y = 0; y < height; y++) {
           ))
         }
       </g>
-      <path data-map-trail fill="#82a85c"></path>
+      <path data-map-trail fill="var(--map-trail, #82a85c)"></path>
       <rect
         data-map-target
         fill="none"
-        stroke="#e2f7a1"
+        stroke="var(--map-target, #e2f7a1)"
         stroke-width=".1"
         visibility="hidden"></rect>
       <g
         fill="none"
-        stroke="#a9ca7e"
+        stroke="var(--map-door, #a9ca7e)"
         stroke-width={doorStrokeWidth}
         pointer-events="none"
       >
@@ -233,10 +261,21 @@ for (let y = 0; y < height; y++) {
         style={`transform: translate(${entrance[0]}px, ${entrance[1]}px)`}
       >
         <g transform="translate(.5 .5) scale(1.65) translate(-.5 -.5)">
-          <rect x=".05" y=".05" width=".9" height=".9" fill="#101e19"></rect>
-          <rect x=".15" y=".2" width=".7" height=".6" fill="#e2f7a1"></rect>
-          <path d="M.25 .3h.15v.15h-.15z M.6 .3h.15v.15h-.15z" fill="#101e19"
-          ></path>
+          <rect
+            x=".05"
+            y=".05"
+            width=".9"
+            height=".9"
+            fill="var(--map-bot-outline, #101e19)"></rect>
+          <rect
+            x=".15"
+            y=".2"
+            width=".7"
+            height=".6"
+            fill="var(--map-bot, #e2f7a1)"></rect>
+          <path
+            d="M.25 .3h.15v.15h-.15z M.6 .3h.15v.15h-.15z"
+            fill="var(--map-bot-outline, #101e19)"></path>
         </g>
       </g>
     </svg>
@@ -244,20 +283,27 @@ for (let y = 0; y < height; y++) {
   <div class="room-details" data-room-details>
     <div class="map-toolbar">
       <h3 data-room-title hidden></h3>
-      <Select
-        id="expo-room-picker"
-        aria-label="Find a Room"
-        defaultValue=""
-        options={[
-          { value: "", label: "Find a Room", disabled: true },
-          ...rooms.map((room, index) => ({ value: index, label: room.name })),
-        ]}
-      />
+      {
+        showRoomPicker && (
+          <Select
+            id="expo-room-picker"
+            aria-label="Find a Room"
+            defaultValue=""
+            options={[
+              { value: "", label: "Find a Room", disabled: true },
+              ...rooms.map((room, index) => ({
+                value: index,
+                label: room.name,
+              })),
+            ]}
+          />
+        )
+      }
     </div>
     <div data-room-content></div>
   </div>
   <div data-alerts-home hidden>
-    <div data-alerts-slot><EventAlerts /></div>
+    <div data-alerts-slot>{showEventAlerts && <EventAlerts />}</div>
   </div>
   <noscript><p>Enable JavaScript to explore the map.</p></noscript>
   {
@@ -356,8 +402,7 @@ for (let y = 0; y < height; y++) {
 
   function start(arcade: HTMLElement, board: HTMLElement, map: SVGSVGElement) {
     const status = arcade.querySelector<HTMLElement>("[data-game-status]")!;
-    const picker =
-      arcade.querySelector<HTMLSelectElement>("#expo-room-picker")!;
+    const picker = arcade.querySelector<HTMLSelectElement>("#expo-room-picker");
     const roomTitle = arcade.querySelector<HTMLElement>("[data-room-title]")!;
     const details = arcade.querySelector<HTMLElement>("[data-room-content]")!;
     const alertsHome = arcade.querySelector<HTMLElement>("[data-alerts-home]")!;
@@ -630,7 +675,7 @@ for (let y = 0; y < height; y++) {
       event.preventDefault();
       moveManually(directions[event.key as keyof typeof directions]);
     });
-    picker.addEventListener("change", () => {
+    picker?.addEventListener("change", () => {
       if (picker.value === "") return;
       const room = rooms[Number(picker.value)];
       picker.value = "";

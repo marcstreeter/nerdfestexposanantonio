@@ -1,0 +1,38 @@
+---
+import PreviewLayout from "@components/review-b/PreviewLayout.astro";
+import { activities, rsvpUrl } from "@components/review-b/content";
+import {
+  boardGameHost,
+  expoSpeaker,
+  livePrinting,
+} from "@components/signup/volunteer-roles";
+import ContactForm from "@components/signup/ContactForm.tsx";
+import "@components/signup/signup.css";
+
+const existingRoles = [boardGameHost.id, expoSpeaker.id, livePrinting.id];
+const volunteerSuggestions = Object.fromEntries(
+  activities
+    .map(({ role }) => role)
+    .filter(({ id }) => !existingRoles.includes(id))
+    .map(({ id, label }) => [id, label]),
+);
+---
+
+<PreviewLayout title="Volunteer">
+  <div class="wrap retro-interior signup-wrap">
+    <header class="retro-page-heading">
+      <p class="retro-eyebrow">Beyond the Arcade</p>
+      <h1>Volunteer</h1>
+      <p>
+        Choose a volunteer role and help make the expo happen. If you’re coming
+        as a guest, <a class="text-link" href={rsvpUrl}
+          >RSVP on the event page</a
+        >.
+      </p>
+    </header>
+    <ContactForm
+      client:only="react"
+      volunteerSuggestions={volunteerSuggestions}
+    />
+  </div>
+</PreviewLayout>
