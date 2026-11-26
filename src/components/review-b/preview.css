@@ -63,19 +63,13 @@
 .retro-brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
   min-height: 44px;
   font: italic 950 clamp(1.1rem, 2.2vw, 1.45rem)/1 var(--header-face);
   letter-spacing: -0.04em;
   text-transform: uppercase;
   text-decoration: none;
 }
-.retro-brand svg {
-  width: 1.85rem;
-  height: 2rem;
-  flex: none;
-}
-.retro-brand :is(svg, b) {
+.retro-brand b {
   color: var(--accent);
 }
 .retro-nav nav {
@@ -97,6 +91,25 @@
   color: var(--cyan);
   text-decoration: underline;
   text-underline-offset: 0.25em;
+}
+.retro-menu-trigger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+}
+.retro-mobile-menu {
+  --masthead: var(--page);
+}
+.retro-mobile-menu .site-menu-close {
+  min-height: 4.175rem;
+  padding-inline: 0;
+  color: var(--accent);
+  font-weight: 800;
 }
 
 .retro-hero {
@@ -544,24 +557,17 @@
   }
 }
 @media (max-width: 43rem) {
-  :root[data-preview="arcade"] {
-    scroll-padding-block-start: 7.5rem;
-  }
   .retro-nav {
-    flex-wrap: wrap;
+    gap: 0.5rem;
   }
   .retro-nav nav {
-    width: 100%;
-    justify-content: flex-start;
-    gap: 0.25rem 0.65rem;
+    display: none;
   }
-  [data-preview="arcade"] .retro-nav .retro-button {
-    min-height: 44px;
-    padding-inline: 0.85rem;
-    font-size: 0.8rem;
+  .retro-brand {
+    font-size: clamp(0.85rem, 4vw, 1.1rem);
   }
-  .retro-nav nav > a:not(.retro-button) {
-    font-size: 0.8rem;
+  .retro-menu-trigger {
+    display: grid;
   }
   .retro-hero-inner {
     grid-template-columns: minmax(0, 1fr);
