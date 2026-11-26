@@ -17,6 +17,7 @@ export default defineConfig({
         "class-variance-authority",
         "clsx",
         "lucide-react",
+        "react",
         "tailwind-merge",
         "zustand",
         "zustand/middleware",

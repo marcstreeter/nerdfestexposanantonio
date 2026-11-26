@@ -1,0 +1,53 @@
+---
+import { Image } from "astro:assets";
+import skyline from "@/images/review-b-san-antonio-skyline.webp";
+
+interface Props {
+  placement: "hero" | "welcome";
+}
+
+const { placement } = Astro.props;
+const isHero = placement === "hero";
+---
+
+<div
+  class:list={["retro-city-skyline", `retro-${placement}-skyline`]}
+  data-parallax-skyline={isHero ? "" : undefined}
+  aria-hidden="true"
+>
+  <Image
+    src={skyline}
+    alt=""
+    widths={[480, 768, 1200, 1600]}
+    sizes={isHero ? "calc(100vw + min(125px, 24vw))" : "100vw"}
+    format="webp"
+    quality={86}
+    loading={isHero ? "eager" : "lazy"}
+  />
+</div>
+
+<script>
+  const skyline = document.querySelector<HTMLElement>(
+    "[data-parallax-skyline]",
+  );
+  if (skyline) {
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0;
+
+    function update() {
+      frame = 0;
+      const progress = reducedMotion.matches
+        ? 0
+        : Math.min(1, Math.max(0, window.scrollY / 350));
+      skyline?.style.setProperty("--skyline-progress", String(progress));
+    }
+
+    function queueUpdate() {
+      if (!frame) frame = requestAnimationFrame(update);
+    }
+
+    window.addEventListener("scroll", queueUpdate, { passive: true });
+    reducedMotion.addEventListener("change", queueUpdate);
+    queueUpdate();
+  }
+</script>

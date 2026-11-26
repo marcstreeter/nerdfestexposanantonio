@@ -1,0 +1,95 @@
+---
+import { Image } from "astro:assets";
+import arcadeHero from "@/images/review-b-san-antonio-hero.webp";
+import ArcadeScreen from "./ArcadeScreen.astro";
+---
+
+<div class="retro-hero-art" aria-hidden="true">
+  <Image
+    class="retro-hero-props"
+    src={arcadeHero}
+    alt=""
+    widths={[480, 768, 1100, 1448]}
+    sizes="(max-width: 43rem) min(calc(100vw - 2.5rem), 30rem), (max-width: 59rem) 57vw, min(62vw, 46rem)"
+    format="webp"
+    quality={86}
+    loading="eager"
+    fetchpriority="high"
+  />
+  <svg
+    viewBox={`0 0 ${arcadeHero.width} ${arcadeHero.height}`}
+    focusable="false"
+  >
+    <defs>
+      <!-- The raster foreground keeps its original pixels and coordinates, so the CRT overlay stays aligned. -->
+      <mask
+        id="hero-props-mask"
+        maskContentUnits="objectBoundingBox"
+        mask-type="alpha"
+      >
+        <g
+          transform={`scale(${1 / arcadeHero.width} ${1 / arcadeHero.height})`}
+        >
+          <rect
+            x="0"
+            y="647"
+            width="1448"
+            height="439"
+            fill="url(#hero-floor-fade)"></rect>
+          <path
+            fill="white"
+            d="M184 167 549 195Q561 195 561 207V318L525 361 542 592 575 645V716L561 738V964L190 974 91 925V648L85 634V557L91 550V294L117 227Z"
+          ></path>
+          <path
+            fill="white"
+            d="M613 660 628 632 733 606 790 564Q834 538 899 533L1077 528Q1083 523 1093 522L1150 524 1156 533 1182 535 1191 525 1254 525 1259 550 1282 560 1352 613Q1380 620 1391 635L1409 671 1414 699 1406 727 1370 752 1354 777 1304 787Q1280 821 1247 813L1201 799 958 809Q916 832 866 811L838 775 739 749Q713 794 670 779 642 776 634 731L616 719 607 690Z"
+          ></path>
+        </g>
+      </mask>
+      <linearGradient id="hero-floor-fade" x2="0" y2="1">
+        <stop stop-color="white" stop-opacity="0"></stop>
+        <stop offset=".22" stop-color="white" stop-opacity=".88"></stop>
+        <stop offset=".88" stop-color="white" stop-opacity=".95"></stop>
+        <stop offset="1" stop-color="white" stop-opacity=".72"></stop>
+      </linearGradient>
+      <clipPath id="hero-delorean-pavement">
+        <path
+          d="M582 779 633 770Q665 788 716 778L843 794Q881 830 947 813L1209 814Q1267 831 1317 815L1402 804 1448 850V944H582Z"
+        ></path>
+      </clipPath>
+      <radialGradient id="hero-delorean-glow">
+        <stop stop-color="#55ebff" stop-opacity=".84"></stop>
+        <stop offset=".48" stop-color="#28bfff" stop-opacity=".52"></stop>
+        <stop offset="1" stop-color="#566bff" stop-opacity="0"></stop>
+      </radialGradient>
+      <clipPath id="hero-cabinet-glass">
+        <path
+          d="M225 361 452 369Q471 369 473 390L484 545Q485 566 466 566H308C300 558 275 555 267 566H232Q216 566 215 550L206 383Q205 360 225 361Z"
+        ></path>
+      </clipPath>
+      <radialGradient id="hero-cabinet-glow" cx=".48" cy=".47" r=".73">
+        <stop stop-color="#194881"></stop>
+        <stop offset="1" stop-color="#040d34"></stop>
+      </radialGradient>
+    </defs>
+    <g
+      class="retro-delorean-glow"
+      clip-path="url(#hero-delorean-pavement)"
+      fill="url(#hero-delorean-glow)"
+    >
+      <ellipse cx="788" cy="801" rx="154" ry="32"></ellipse>
+      <ellipse cx="1117" cy="833" rx="302" ry="57"></ellipse>
+    </g>
+    <g clip-path="url(#hero-cabinet-glass)">
+      <rect
+        x="205"
+        y="358"
+        width="281"
+        height="210"
+        fill="url(#hero-cabinet-glow)"></rect>
+      <g transform="matrix(1.57 .028 .071 1.78 213 368)">
+        <ArcadeScreen />
+      </g>
+    </g>
+  </svg>
+</div>

@@ -1,0 +1,302 @@
+---
+const columns = [27, 52, 77, 102];
+const rows = [
+  { y: 25, color: "#ff9ee4", sprite: "orb" },
+  { y: 42, color: "#a6baff", sprite: "wing" },
+  { y: 60, color: "#9effe3", sprite: "wing" },
+];
+const hits = [
+  { column: 0, x: 35, y: 60, delay: ".66s", hit: "1.14s", rise: "-32px" },
+  { column: 3, x: 118, y: 65, delay: "2.22s", hit: "2.7s", rise: "-27px" },
+  { column: 2, x: 65, y: 70, delay: "3.96s", hit: "4.44s", rise: "-22px" },
+];
+---
+
+<defs>
+  <linearGradient id="orbit-glass" x2="1" y2="1">
+    <stop stop-color="#8ddeff" stop-opacity=".24"></stop>
+    <stop offset="1" stop-color="#8ddeff" stop-opacity="0"></stop>
+  </linearGradient>
+  <pattern
+    id="orbit-scanlines"
+    width="1"
+    height="2.5"
+    patternUnits="userSpaceOnUse"
+  >
+    <path d="M0 2h1" stroke="#060d23" stroke-width=".65" opacity=".27"></path>
+  </pattern>
+  <clipPath id="orbit-screen-clip"
+    ><rect x="2" y="2" width="157" height="103" rx="9"></rect></clipPath
+  >
+  <clipPath id="orbit-score-clip"
+    ><rect x="130" y="3" width="23" height="11"></rect></clipPath
+  >
+  <path
+    id="orbit-orb"
+    d="M-2-5h4v2h3v2h2v4H4v2h-2V3h-4v2h-2V3h-3v-4h2v-2h3Zm1 3v2h2v-2Z"
+    fill-rule="evenodd"></path>
+  <path
+    id="orbit-wing"
+    d="M-7-4h3v2h2v-2h4v2h2v-2h3v5H5v3H3V2h-6v2h-2V1h-2Zm5 4v1h1V0Zm3 0v1h1V0Z"
+    fill-rule="evenodd"></path>
+</defs>
+
+<g clip-path="url(#orbit-screen-clip)">
+  <path
+    d="M14 31h1m20 39h1m114-27h1m-13 32h1m-97 7h1m38-14h1m-68 31h1m94-78h1m-49 38h1m60 26h1"
+    stroke="#8badde"
+    opacity=".65"></path>
+  <path d="M7 15h147M8 101h145" stroke="#5793be" stroke-width=".7" opacity=".7"
+  ></path>
+  <g
+    font-family="ui-monospace, monospace"
+    font-size="7"
+    letter-spacing=".8"
+    fill="#afeaff"
+  >
+    <text x="10" y="11">WAVE 01</text>
+    <text x="129" y="11" text-anchor="end">SCORE</text>
+    <g clip-path="url(#orbit-score-clip)">
+      <g class="orbit-score" text-anchor="end">
+        {
+          ["000", "100", "200", "300"].map((score, index) => (
+            <text x="151" y={11 + index * 12}>
+              {score}
+            </text>
+          ))
+        }
+      </g>
+    </g>
+  </g>
+
+  <g class="orbit-formation">
+    {
+      rows.map(({ y, color, sprite }) => (
+        <g fill={color}>
+          {columns.map((x, column) => {
+            const hit =
+              y === 60
+                ? hits.find((item) => item.column === column)
+                : undefined;
+            return (
+              <use
+                href={`#orbit-${sprite}`}
+                x={x}
+                y={y}
+                class={hit && "orbit-hit"}
+              />
+            );
+          })}
+        </g>
+      ))
+    }
+  </g>
+
+  <g transform="translate(35 95)">
+    <g class="orbit-ship">
+      <path d="M0-7 3-2h3v2h4v5H3V3h-6v2h-7V0h4v-2h3Z" fill="#9dfaee"></path>
+      <path d="M-1-2h2v5h-2z" fill="#e8fffa"></path>
+    </g>
+  </g>
+  {
+    hits.map(({ x, y, delay, hit, rise }) => (
+      <g>
+        <path
+          class="orbit-shot"
+          d={`M${x} 89v5`}
+          stroke="#ffe095"
+          stroke-width="2"
+          style={`--launch:${delay};--rise:${rise}`}
+        />
+        <g transform={`translate(${x} ${y})`}>
+          <path
+            class="orbit-burst"
+            d="M0-8v4m0 8v4M-8 0h4m8 0h4m-13-5 2 2m6 6 2 2m0-10-2 2m-6 6-2 2"
+            stroke="#ffe095"
+            stroke-width="1.5"
+            style={`--hit:${hit}`}
+          />
+        </g>
+      </g>
+    ))
+  }
+  <path class="orbit-enemy-shot" d="M67 58v4" stroke="#ff9ed7" stroke-width="2"
+  ></path>
+
+  <rect x="2" y="2" width="157" height="103" fill="url(#orbit-scanlines)"
+  ></rect>
+  <path d="M4 14Q4 3 16 3h130q7 0 10 6L4 37Z" fill="url(#orbit-glass)"></path>
+</g>
+
+<style>
+  .orbit-shot,
+  .orbit-burst,
+  .orbit-enemy-shot {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .orbit-formation {
+      animation: orbit-march 6s steps(1, end) infinite;
+    }
+    .orbit-ship {
+      animation: orbit-dodge 6s ease-in-out infinite;
+    }
+    .orbit-shot {
+      animation: orbit-fire 6s linear var(--launch) infinite;
+    }
+    .orbit-enemy-shot {
+      animation: orbit-counterfire 6s linear infinite;
+    }
+    .orbit-hit {
+      animation: orbit-defeat 6s steps(1, end) infinite;
+    }
+    .orbit-burst {
+      animation: orbit-impact 6s ease-out var(--hit) infinite;
+    }
+    .orbit-score {
+      animation: orbit-score 6s steps(1, end) infinite;
+    }
+
+    @keyframes orbit-march {
+      0% {
+        transform: translate(0, 0);
+      }
+      12% {
+        transform: translate(8px, 0);
+      }
+      24% {
+        transform: translate(16px, 0);
+      }
+      38% {
+        transform: translate(16px, 5px);
+      }
+      53% {
+        transform: translate(0, 5px);
+      }
+      66% {
+        transform: translate(-12px, 10px);
+      }
+      80% {
+        transform: translate(0, 10px);
+      }
+      92% {
+        transform: translate(12px, 10px);
+      }
+    }
+
+    @keyframes orbit-dodge {
+      0%,
+      100% {
+        transform: translateX(-12px);
+      }
+      10%,
+      19% {
+        transform: translateX(0);
+      }
+      37%,
+      45% {
+        transform: translateX(83px);
+      }
+      66%,
+      74% {
+        transform: translateX(30px);
+      }
+      88% {
+        transform: translateX(63px);
+      }
+    }
+
+    @keyframes orbit-fire {
+      0% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      7% {
+        opacity: 1;
+      }
+      8%,
+      100% {
+        opacity: 0;
+        transform: translateY(var(--rise));
+      }
+    }
+
+    @keyframes orbit-counterfire {
+      0%,
+      27% {
+        opacity: 0;
+        transform: translateY(0);
+      }
+      28% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      42% {
+        opacity: 1;
+      }
+      44%,
+      100% {
+        opacity: 0;
+        transform: translateY(37px);
+      }
+    }
+
+    @keyframes orbit-defeat {
+      0% {
+        opacity: 1;
+      }
+      19% {
+        opacity: 0;
+      }
+    }
+    .orbit-hit[x="102"] {
+      animation-name: orbit-defeat-right;
+    }
+    .orbit-hit[x="77"] {
+      animation-name: orbit-defeat-center;
+    }
+    @keyframes orbit-defeat-right {
+      0% {
+        opacity: 1;
+      }
+      45% {
+        opacity: 0;
+      }
+    }
+    @keyframes orbit-defeat-center {
+      0% {
+        opacity: 1;
+      }
+      74% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes orbit-impact {
+      0% {
+        opacity: 1;
+      }
+      5%,
+      100% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes orbit-score {
+      0% {
+        transform: translateY(0);
+      }
+      19% {
+        transform: translateY(-12px);
+      }
+      45% {
+        transform: translateY(-24px);
+      }
+      74%,
+      100% {
+        transform: translateY(-36px);
+      }
+    }
+  }
+</style>

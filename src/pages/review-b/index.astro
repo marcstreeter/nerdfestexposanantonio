@@ -1,0 +1,144 @@
+---
+import { buttonVariants } from "@/components/ui/shadcn/button";
+import CommunityWelcome from "@components/review/CommunityWelcome.astro";
+import { scenePath, storyScenes } from "@components/review/story-art";
+import ArcadeHero from "@components/review-b/ArcadeHero.astro";
+import CitySkyline from "@components/review-b/CitySkyline.astro";
+import PreviewLayout from "@components/review-b/PreviewLayout.astro";
+import {
+  activities,
+  directions,
+  event,
+  previewBase,
+  rsvpUrl,
+} from "@components/review-b/content";
+
+const signup = `${previewBase}signup/`;
+const events = `${previewBase}events/`;
+const joystick =
+  "M15 63 48 54 85 63 55 77Z M15 63v13l40 12 30-13V63 M55 77v11 M39 61V37 M31 61q8 5 16 0 M39 18a10 10 0 1 0 0 20 10 10 0 1 0 0-20 M66 61a7 3 0 1 0 0 6 7 3 0 1 0 0-6";
+---
+
+<PreviewLayout title="Beyond the Arcade">
+  <section class="retro-hero" aria-labelledby="retro-title">
+    <CitySkyline placement="hero" />
+    <div class="wrap retro-hero-inner">
+      <div class="retro-hero-copy">
+        <p class="retro-kicker">
+          <span>4th Annual</span> Free family-friendly expo
+        </p>
+        <h1 id="retro-title">
+          <span>Beyond</span><small>the</small><strong>Arcade</strong>
+        </h1>
+        <p class="retro-hero-date">
+          <time datetime={event.start}>{event.date}</time><span
+            >{event.hours}</span
+          >
+        </p>
+        <p class="retro-location">{event.address} · {event.city}</p>
+        <div class="retro-actions">
+          <a
+            class={buttonVariants({ className: "retro-button" })}
+            href={rsvpUrl}>RSVP <span aria-hidden="true">→</span></a
+          >
+          <a
+            class={buttonVariants({
+              variant: "outline",
+              className: "retro-button",
+            })}
+            href={signup}>Volunteer</a
+          >
+          <a
+            class={buttonVariants({
+              variant: "outline",
+              className: "retro-button",
+            })}
+            href={events}
+            >Explore the schedule <span aria-hidden="true">→</span></a
+          >
+        </div>
+      </div>
+      <ArcadeHero />
+    </div>
+  </section>
+
+  <section class="wrap retro-levels" aria-labelledby="level-select">
+    <div class="retro-section-heading">
+      <h2 id="level-select">Level select</h2>
+      <p>
+        Find something to play, build, or share. Every activity has a way to
+        help.
+      </p>
+    </div>
+    <ul class="retro-level-grid">
+      {
+        activities.map(({ title, description, action, motif, role }) => (
+          <li class="retro-level">
+            <div class="retro-level-art">
+              <svg
+                viewBox="0 0 100 100"
+                fill="none"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path
+                  d={
+                    motif === "arcade"
+                      ? joystick
+                      : scenePath(storyScenes[motif])
+                  }
+                  stroke="currentColor"
+                  stroke-width="2.75"
+                  stroke-linejoin="round"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+            <div class="retro-level-copy">
+              <h3>{title}</h3>
+              <p>{description}</p>
+              <a
+                href={`${signup}?volunteer=${encodeURIComponent(role.id)}#signup-volunteering`}
+              >
+                {action} <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="retro-welcome" aria-labelledby="retro-welcome-title">
+    <CitySkyline placement="welcome" />
+    <div class="wrap retro-welcome-inner">
+      <div>
+        <h2 id="retro-welcome-title">Everyone is welcome</h2>
+        <CommunityWelcome />
+      </div>
+      <div class="retro-venue">
+        <p>
+          <svg
+            viewBox="0 0 24 24"
+            width="32"
+            height="32"
+            fill="currentColor"
+            aria-hidden="true"
+            ><path
+              fill-rule="evenodd"
+              d="M12 1a8 8 0 0 0-8 8c0 5 8 14 8 14s8-9 8-14a8 8 0 0 0-8-8Zm0 4.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"
+            ></path></svg
+          >
+          <span>{event.address}<br />{event.city}</span>
+        </p>
+        <a
+          class={buttonVariants({
+            variant: "outline",
+            className: "retro-button",
+          })}
+          href={directions}>Get directions <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </div>
+  </section>
+</PreviewLayout>

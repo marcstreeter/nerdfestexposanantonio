@@ -1,0 +1,76 @@
+---
+import { buttonVariants } from "@/components/ui/shadcn/button";
+import { dice, scenePath } from "@components/review/story-art";
+import { previewBase, rsvpUrl } from "./content";
+import "@components/ui/forms/controls.css";
+import "@components/review/theme.css";
+import "@components/review/review.css";
+import "./preview.css";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const current = Astro.url.pathname.replace(/\/$/, "");
+const events = `${previewBase}events/`;
+const signup = `${previewBase}signup/`;
+---
+
+<!doctype html>
+<html lang="en" data-preview="arcade">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0b0920" />
+    <title>{title} | Nerd Fest + Expo</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="retro-header">
+      <div class="wrap retro-nav">
+        <a class="retro-brand" href={previewBase}>
+          <svg
+            viewBox="6 6 88 88"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="4.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d={scenePath(dice)}></path>
+          </svg>
+          <span>Nerd Fest <b>+ Expo</b></span>
+        </a>
+        <nav aria-label="Main navigation">
+          <a
+            href={events}
+            aria-current={current === events.slice(0, -1) ? "page" : undefined}
+            >Schedule</a
+          >
+          <a
+            class={buttonVariants({
+              variant: "outline",
+              className: "retro-button",
+            })}
+            href={signup}
+            aria-current={current === signup.slice(0, -1) ? "page" : undefined}
+            >Volunteer</a
+          >
+          <a
+            class={buttonVariants({ className: "retro-button" })}
+            href={rsvpUrl}>RSVP</a
+          >
+        </nav>
+      </div>
+    </header>
+    <main id="content"><slot /></main>
+    <footer class="retro-footer">
+      <div class="wrap">
+        <span>Nerd Fest + Expo</span><span>San Antonio, Texas</span>
+      </div>
+    </footer>
+  </body>
+</html>

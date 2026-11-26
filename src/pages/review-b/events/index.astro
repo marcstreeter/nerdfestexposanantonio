@@ -1,0 +1,90 @@
+---
+import { buttonVariants } from "@/components/ui/shadcn/button";
+import Arcade from "@components/review/Arcade.astro";
+import { expoEvents } from "@components/review/expo-events";
+import PreviewLayout from "@components/review-b/PreviewLayout.astro";
+import { event, previewBase, rsvpUrl } from "@components/review-b/content";
+---
+
+<PreviewLayout title="Schedule & Map">
+  <div class="wrap retro-interior">
+    <header class="retro-page-heading">
+      <p class="retro-eyebrow">Beyond the Arcade</p>
+      <h1>Schedule &amp; Map</h1>
+      <p>
+        The schedule for {event.date} will be posted here when it’s announced. Try
+        the interactive map and explore the 2026 lineup below.
+      </p>
+      <div class="retro-actions">
+        <a
+          class={buttonVariants({
+            colorScheme: "alternate",
+            className: "retro-button",
+          })}
+          href="#arcade">Open the Expo Map <span aria-hidden="true">↓</span></a
+        >
+        <a
+          class={buttonVariants({
+            variant: "outline",
+            className: "retro-button",
+          })}
+          href={`${previewBase}signup/`}>Volunteer or RSVP</a
+        >
+        <a
+          class={buttonVariants({
+            variant: "outline",
+            className: "retro-button",
+          })}
+          href={rsvpUrl}>RSVP</a
+        >
+      </div>
+    </header>
+    <section id="arcade" class="retro-map" aria-labelledby="expo-map-title">
+      <h2 id="expo-map-title">Expo Map</h2>
+      <p id="arcade-help">
+        Tap room for details. Activities shown are from 2026.
+        <span class="sr-only">Use the arrow keys to move the bot.</span>
+      </p>
+      <Arcade showEventAlerts={false} showRoomPicker={false} />
+    </section>
+    <section class="retro-schedule" aria-labelledby="previous-lineup">
+      <h2 id="previous-lineup">2026 expo lineup</h2>
+      <ul class="event-list">
+        {
+          expoEvents.map(({ id, kind, time, title, venue, hosts, room }) => (
+            <li class="event-card" data-event={id}>
+              <span class="event-time">
+                {kind === "exhibit" ? "Exhibit" : time}
+              </span>
+              <div>
+                <h3>
+                  {room === "entrance" ? (
+                    title
+                  ) : (
+                    <a href={`?event=${id}#arcade`} data-open-event={id}>
+                      {title}
+                    </a>
+                  )}
+                </h3>
+                <p>{[venue, ...hosts].join(" · ")}</p>
+              </div>
+              {room !== "entrance" && (
+                <a
+                  class={buttonVariants({
+                    variant: "outline",
+                    className: "retro-button",
+                  })}
+                  href={`?event=${id}#arcade`}
+                  data-open-event={id}
+                  aria-label={`Find ${title} on the map`}
+                >
+                  Find on map
+                </a>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
+</PreviewLayout>

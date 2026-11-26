@@ -13,7 +13,11 @@ import EmailInput from "@components/ui/forms/EmailInput.tsx";
 import PhoneInput from "@components/ui/forms/PhoneInput.tsx";
 import TextAreaInput from "@components/ui/forms/TextAreaInput.tsx";
 
-export default function ContactForm() {
+interface Props {
+  volunteerSuggestions?: Record<string, string>;
+}
+
+export default function ContactForm({ volunteerSuggestions }: Props) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle",
   );
@@ -21,19 +25,36 @@ export default function ContactForm() {
   useEffect(() => {
     const url = new URL(location.href);
     const role = url.searchParams.get("volunteer");
-    if (
-      !role ||
-      ![boardGameHost, expoSpeaker, livePrinting].some(({ id }) => id === role)
-    )
-      return;
+    if (!role) return;
+
+    const knownRole = [boardGameHost, expoSpeaker, livePrinting].some(
+      ({ id }) => id === role,
+    );
+    const suggestion =
+      volunteerSuggestions && Object.hasOwn(volunteerSuggestions, role)
+        ? volunteerSuggestions[role]
+        : undefined;
+    if (!knownRole && !suggestion) return;
 
     const { rsvp, setRsvp } = rsvpStore.getState();
-    if (!rsvp.Interests.includes(role)) {
-      setRsvp({ ...rsvp, Interests: [...rsvp.Interests, role] });
-    }
+    const interest = suggestion ? "volunteer-other" : role;
+    const notes = rsvp.VolunteerOther.split("; ");
+    setRsvp({
+      ...rsvp,
+      Interests: rsvp.Interests.includes(interest)
+        ? rsvp.Interests
+        : [...rsvp.Interests, interest],
+      VolunteerOther:
+        suggestion && !notes.includes(suggestion)
+          ? [rsvp.VolunteerOther, suggestion].filter(Boolean).join("; ")
+          : rsvp.VolunteerOther,
+    });
     url.searchParams.delete("volunteer");
     history.replaceState(history.state, "", url);
-  }, []);
+    if (url.hash === "#signup-volunteering") {
+      document.getElementById("signup-volunteering")?.scrollIntoView();
+    }
+  }, [volunteerSuggestions]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
