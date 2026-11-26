@@ -38,6 +38,12 @@
 [data-preview="arcade"] .retro-button.border:hover {
   background: #292151;
 }
+[data-preview="arcade"]
+  .retro-nav
+  .retro-button.border:is(:hover, :focus-visible) {
+  background: var(--button-alternate);
+  color: var(--button-on-alternate, var(--page));
+}
 
 .retro-header {
   position: sticky;
